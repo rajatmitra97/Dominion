@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOVEREIGN // GLOBAL CHECKMATE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#050505;--panel:#0a0c0a;--panel-2:#0d100d;--line:#1c241c;--line-bright:#2a3a2a;
+  --white:#e8efe6;--dim:#5c6b5c;--red:#ff2a2a;--green:#00ff41;--blue:#007BFF;--amber:#ffb000;--purple:#9d4edd;
+  --glow-green:0 0 8px rgba(0,255,65,.55);--glow-red:0 0 10px rgba(255,42,42,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--black);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:12.5px;overflow:hidden;letter-spacing:.3px;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9000;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 2px,rgba(0,0,0,.2) 3px,rgba(0,0,0,0) 4px);mix-blend-mode:multiply;opacity:.5}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9001;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 55%,rgba(0,0,0,.85) 100%)}
+.crt-flicker{position:fixed;inset:0;pointer-events:none;z-index:8999;background:rgba(0,255,65,.012);animation:flick 7s infinite}
+@keyframes flick{0%,97%,100%{opacity:0}98%{opacity:1}}
+
+#app{display:flex;flex-direction:column;height:100vh;width:100vw;padding:7px;gap:6px}
+.panel{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);position:relative}
+.panel::before{content:"";position:absolute;top:0;left:0;width:12px;height:12px;border-top:1px solid var(--green);border-left:1px solid var(--green);opacity:.5}
+.panel::after{content:"";position:absolute;bottom:0;right:0;width:12px;height:12px;border-bottom:1px solid var(--green);border-right:1px solid var(--green);opacity:.5}
+.ph{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);padding:6px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.3)}
+.ph .blip{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:var(--glow-green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* TOP BAR */
+#topbar{display:flex;align-items:stretch;flex:0 0 auto;min-height:70px}
+#brand{padding:7px 16px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--line);min-width:215px}
+#brand .logo{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:18px;letter-spacing:2.5px;color:var(--white);line-height:1}
+#brand .logo b{color:var(--red);text-shadow:var(--glow-red)}
+#brand .sub{font-size:8.5px;letter-spacing:2px;color:var(--dim);margin-top:4px}
+#brand .leader{font-size:9px;color:var(--green);margin-top:3px;letter-spacing:1px}
+#stats{display:flex;flex:1}
+.stat{flex:1;padding:8px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.stat .lbl{font-size:8.5px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:3px}
+.stat .val{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:19px;line-height:1}
+.stat .delta{font-size:8.5px;color:var(--dim);margin-top:3px;height:11px}
+.stat.treasury .val{color:var(--green)}.stat.manpower .val{color:var(--white)}.stat.pc .val{color:var(--blue)}.stat.approval .val{color:var(--amber)}
+#approvalbar{height:3px;background:var(--line);margin-top:5px;position:relative}
+#approvalbar i{position:absolute;left:0;top:0;height:100%;background:var(--amber);box-shadow:0 0 6px var(--amber);transition:width .4s}
+.stat.danger .val{color:var(--red)!important;animation:blink .6s infinite}
+@keyframes blink{50%{opacity:.3}}
+#subres{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;padding:7px 13px;border-right:1px solid var(--line);gap:4px;min-width:130px}
+.subitem{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1px;color:var(--dim)}
+.subitem b{color:var(--white);font-family:'Chakra Petch',sans-serif}
+.subitem.nuke b{color:var(--red)}.subitem.spy b{color:var(--purple)}.subitem.tech b{color:var(--amber)}
+#defcon{flex:0 0 auto;padding:8px 16px;display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:108px;background:rgba(255,42,42,.04)}
+#defcon .lbl{font-size:8.5px;letter-spacing:2px;color:var(--dim)}
+#defcon .num{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:31px;line-height:.9;color:var(--green)}
+#defcon .desc{font-size:7.5px;letter-spacing:1px;color:var(--dim);text-align:center;margin-top:2px}
+
+/* TICKER + OBJECTIVES */
+#ticker{flex:0 0 auto;height:24px;border:1px solid var(--line);background:rgba(0,0,0,.4);overflow:hidden;display:flex;align-items:center;position:relative}
+#ticker .tag{flex:0 0 auto;background:var(--red);color:var(--black);font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:9px;letter-spacing:2px;padding:0 10px;height:100%;display:flex;align-items:center;z-index:2}
+#tickerstream{white-space:nowrap;animation:scroll 38s linear infinite;font-size:10.5px;color:var(--amber);padding-left:100%}
+#tickerstream span{margin-right:60px}
+#tickerstream span::before{content:"◆ ";color:var(--dim)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+#objectives{flex:0 0 auto;display:flex;gap:6px}
+.obj{flex:1;border:1px solid var(--line);background:rgba(0,0,0,.3);padding:5px 10px;position:relative;overflow:hidden}
+.obj .ol{font-size:8.5px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;display:flex;justify-content:space-between}
+.obj .ol b{color:var(--white)}
+.obj .ob{height:3px;background:var(--line);margin-top:5px;position:relative}
+.obj .ob i{position:absolute;left:0;top:0;height:100%;transition:width .5s}
+.obj.dom .ob i{background:var(--green);box-shadow:var(--glow-green)}
+.obj.econ .ob i{background:var(--amber)}
+.obj.infl .ob i{background:var(--blue)}
+
+/* MAIN */
+#main{flex:1;display:grid;grid-template-columns:1.12fr 1fr;gap:6px;min-height:0}
+#leftcol,#rightcol{display:flex;flex-direction:column;gap:6px;min-height:0}
+#map{flex:1;display:flex;flex-direction:column;min-height:0}
+#mapgrid{flex:1;overflow-y:auto;padding:7px;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-content:start}
+.nation{border:1px solid var(--line);padding:7px 9px;cursor:pointer;background:rgba(255,255,255,.012);transition:all .15s;position:relative;overflow:hidden}
+.nation:hover{border-color:var(--line-bright);background:rgba(0,255,65,.04)}
+.nation.selected{border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green),0 0 12px rgba(0,255,65,.2)}
+.nation .nrow{display:flex;justify-content:space-between;align-items:baseline}
+.nation .nname{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:12px;color:var(--white);display:flex;align-items:center;gap:5px}
+.nation .nname .nuke{color:var(--red);font-size:9px}
+.nation .nstat{font-size:7.5px;letter-spacing:1px;text-transform:uppercase;padding:1px 5px;border:1px solid;border-radius:1px}
+.nstat.neutral{color:var(--dim);border-color:var(--line-bright)}
+.nstat.hostile{color:var(--red);border-color:var(--red);text-shadow:0 0 4px var(--red)}
+.nstat.allied{color:var(--blue);border-color:var(--blue)}
+.nstat.annexed{color:var(--green);border-color:var(--green);background:rgba(0,255,65,.1)}
+.nstat.puppet{color:var(--purple);border-color:var(--purple)}
+.nstat.destab{color:var(--amber);border-color:var(--amber)}
+.nation .ndata{display:flex;gap:10px;margin-top:6px;font-size:9.5px;color:var(--dim);flex-wrap:wrap}
+.nation .ndata b{color:var(--white);font-weight:500}
+.defmeter{height:3px;background:var(--line);margin-top:5px;position:relative}
+.defmeter i{position:absolute;left:0;top:0;height:100%;background:var(--red);transition:width .4s;opacity:.7}
+.nation.gone{opacity:.5;cursor:pointer}
+.relbar{height:2px;background:var(--line);margin-top:3px;position:relative}
+.relbar i{position:absolute;top:0;height:100%;transition:all .4s}
+
+#actiondock{flex:0 0 auto;border-top:1px solid var(--line);padding:8px 9px;background:rgba(0,0,0,.3)}
+#actiondock .target{font-size:9.5px;color:var(--dim);margin-bottom:6px}
+#actiondock .target b{color:var(--green);font-family:'Chakra Petch',sans-serif;letter-spacing:1px}
+.actbtns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}
+.actbtn{padding:7px 4px;border:1px solid var(--line-bright);background:rgba(255,255,255,.02);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:9.5px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .14s;text-align:center}
+.actbtn .cost{display:block;font-size:7.5px;color:var(--dim);margin-top:2px}
+.actbtn:hover:not(:disabled){background:rgba(0,255,65,.07);border-color:var(--green)}
+.actbtn.invade:hover:not(:disabled){background:rgba(255,42,42,.1);border-color:var(--red);color:var(--red)}
+.actbtn.diplo:hover:not(:disabled){background:rgba(0,123,255,.1);border-color:var(--blue);color:var(--blue)}
+.actbtn.puppet:hover:not(:disabled){background:rgba(157,78,221,.12);border-color:var(--purple);color:var(--purple)}
+.actbtn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CRISIS */
+#crisis{flex:1.05;display:flex;flex-direction:column;min-height:0}
+#crisisbody{flex:1;padding:12px;display:flex;flex-direction:column;justify-content:center;min-height:0;overflow-y:auto}
+.eventcard{border:1px solid var(--line-bright);background:rgba(255,42,42,.03);animation:cardin .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes cardin{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.eventcard .etag{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);padding:7px 11px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.eventcard .etitle{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:16px;padding:12px 12px 5px;color:var(--white);line-height:1.2}
+.eventcard .ebody{padding:0 12px 9px;font-size:11px;color:#aebaae;line-height:1.5}
+.eventcard .advice{margin:0 12px 9px;padding:7px 9px;border-left:2px solid var(--blue);background:rgba(0,123,255,.05);font-size:9.5px;color:#9bb}
+.eventcard .advice b{color:var(--blue);font-family:'Chakra Petch',sans-serif;letter-spacing:.5px}
+.eventcard .echoices{padding:0 11px 11px;display:flex;flex-direction:column;gap:6px}
+.choice{border:1px solid var(--line-bright);background:rgba(255,255,255,.015);padding:8px 10px;cursor:pointer;transition:all .14s;text-align:left;color:var(--white);font-family:'JetBrains Mono',monospace}
+.choice:hover{border-color:var(--green);background:rgba(0,255,65,.06);transform:translateX(3px)}
+.choice .ctxt{font-size:10.5px;font-weight:500;display:flex;align-items:center;gap:6px}
+.choice .ctxt::before{content:"▶";color:var(--green);font-size:7px}
+.choice .ceff{font-size:8.5px;color:var(--dim);margin-top:3px;padding-left:13px;letter-spacing:.3px}
+#noevent{text-align:center;color:var(--dim);font-size:10.5px;line-height:1.8}
+#noevent .big{font-family:'Chakra Petch',sans-serif;font-size:13px;color:var(--line-bright);letter-spacing:3px;display:block;margin-bottom:6px}
+#nextin{color:var(--green);font-size:9px;letter-spacing:1px}
+
+#termpanel{flex:0 0 170px;display:flex;flex-direction:column;min-height:0}
+#terminal{flex:1;overflow-y:auto;padding:8px 11px;font-size:10.5px;line-height:1.5}
+#terminal .line{margin-bottom:2px;animation:typein .2s;word-break:break-word}
+#terminal .line::before{content:"> ";color:var(--green)}
+@keyframes typein{from{opacity:0}to{opacity:1}}
+.lg-green{color:var(--green)}.lg-red{color:var(--red)}.lg-blue{color:var(--blue)}.lg-amber{color:var(--amber)}.lg-dim{color:var(--dim)}.lg-white{color:var(--white)}.lg-purple{color:var(--purple)}
+
+/* OPS */
+#ops{flex:0 0 auto;display:flex;flex-direction:column;height:238px}
+#tabs{display:flex;border-bottom:1px solid var(--line)}
+.tab{flex:1;padding:8px;text-align:center;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);cursor:pointer;border-right:1px solid var(--line);transition:all .14s;background:rgba(0,0,0,.2)}
+.tab:last-child{border-right:none}
+.tab:hover{color:var(--white)}
+.tab.active{color:var(--green);background:rgba(0,255,65,.05);box-shadow:inset 0 -2px 0 var(--green)}
+#tabbody{flex:1;overflow-y:auto;padding:8px}
+.upgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;align-content:start}
+.upgrade{border:1px solid var(--line);padding:7px 9px;cursor:pointer;transition:all .14s;background:rgba(255,255,255,.012)}
+.upgrade:hover:not(.maxed):not(.cant){border-color:var(--green);background:rgba(0,255,65,.04)}
+.upgrade.cant{opacity:.45;cursor:not-allowed}
+.upgrade.maxed{opacity:.6;cursor:default;border-color:var(--line-bright)}
+.upgrade .urow{display:flex;justify-content:space-between;align-items:baseline}
+.upgrade .uname{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;color:var(--white)}
+.upgrade .ulvl{font-size:8.5px;color:var(--green);letter-spacing:1px}
+.upgrade .udesc{font-size:9px;color:var(--dim);margin-top:3px;line-height:1.35}
+.upgrade .ucost{font-size:9.5px;margin-top:5px;color:var(--green);font-weight:700;letter-spacing:.3px}
+.upgrade.cant .ucost{color:var(--red)}
+
+/* espionage */
+.section-title{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin:4px 0 7px;border-bottom:1px dashed var(--line);padding-bottom:4px}
+.missiongrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.mission{border:1px solid var(--line);padding:7px 9px;cursor:pointer;transition:all .14s;background:rgba(157,78,221,.03)}
+.mission:hover:not(.cant){border-color:var(--purple);background:rgba(157,78,221,.08)}
+.mission.cant{opacity:.45;cursor:not-allowed}
+.mission .mname{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:10.5px;color:var(--purple)}
+.mission .mdesc{font-size:8.5px;color:var(--dim);margin-top:3px;line-height:1.35}
+.mission .mmeta{font-size:8.5px;color:var(--white);margin-top:5px;display:flex;justify-content:space-between}
+.activeops{margin-top:8px}
+.opitem{display:flex;justify-content:space-between;align-items:center;font-size:9.5px;padding:4px 7px;border:1px solid var(--line);margin-bottom:4px;background:rgba(0,0,0,.2)}
+.opitem .opbar{flex:1;height:3px;background:var(--line);margin:0 9px;position:relative}
+.opitem .opbar i{position:absolute;left:0;top:0;height:100%;background:var(--purple);transition:width .5s}
+
+/* statecraft */
+.sc-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+.cabinet{display:flex;flex-direction:column;gap:6px}
+.advisor{border:1px solid var(--line);padding:7px 9px;background:rgba(255,255,255,.012)}
+.advisor .arow{display:flex;justify-content:space-between;align-items:center}
+.advisor .aname{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;color:var(--white)}
+.advisor .arole{font-size:8.5px;color:var(--dim);letter-spacing:1px}
+.advisor .ameters{display:flex;gap:12px;margin-top:5px;font-size:8.5px}
+.advisor .meter{flex:1}
+.advisor .meter .ml{color:var(--dim);display:flex;justify-content:space-between}
+.advisor .meter .mb{height:3px;background:var(--line);margin-top:3px;position:relative}
+.advisor .meter .mb i{position:absolute;left:0;top:0;height:100%;transition:width .4s}
+.advisor.disloyal{border-color:var(--red);box-shadow:inset 0 0 18px rgba(255,42,42,.08)}
+.advisor .train{margin-top:6px;width:100%;padding:4px;border:1px solid var(--line-bright);background:transparent;color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:8.5px;cursor:pointer;letter-spacing:1px}
+.advisor .train:hover:not(:disabled){background:rgba(0,123,255,.1)}
+.advisor .train:disabled{opacity:.4;cursor:not-allowed}
+.policy{margin-bottom:11px}
+.policy .pl{display:flex;justify-content:space-between;font-size:9.5px;color:var(--white);margin-bottom:4px}
+.policy .pl b{color:var(--amber)}
+.policy input[type=range]{width:100%;-webkit-appearance:none;height:4px;background:var(--line);outline:none}
+.policy input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--green);cursor:pointer;box-shadow:var(--glow-green)}
+.policy .pd{font-size:8px;color:var(--dim);margin-top:3px}
+.nukebox{border:1px solid var(--red);padding:9px;margin-top:8px;background:rgba(255,42,42,.04)}
+.nukebox .nh{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:11px;color:var(--red);letter-spacing:1px}
+.nukebtn{margin-top:7px;width:100%;padding:7px;border:1px solid var(--red);background:transparent;color:var(--red);font-family:'Chakra Petch',sans-serif;font-weight:600;letter-spacing:2px;cursor:pointer;font-size:10px}
+.nukebtn:hover:not(:disabled){background:var(--red);color:var(--black)}
+.nukebtn:disabled{opacity:.4;cursor:not-allowed}
+
+::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--line-bright)}::-webkit-scrollbar-thumb:hover{background:var(--green)}
+
+.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translate(0,0)}10%{transform:translate(-6px,3px)}20%{transform:translate(7px,-4px)}30%{transform:translate(-8px,-2px)}40%{transform:translate(5px,5px)}50%{transform:translate(-5px,3px)}60%{transform:translate(6px,-3px)}70%{transform:translate(-4px,2px)}80%{transform:translate(3px,-2px)}90%{transform:translate(-2px,1px)}}
+.glitch{animation:glitch .5s steps(2) infinite}
+@keyframes glitch{0%{filter:none;transform:none}20%{filter:hue-rotate(90deg) saturate(3);transform:translate(2px,-2px)}40%{filter:invert(.1);transform:translate(-3px,1px)}60%{filter:hue-rotate(-60deg);transform:translate(2px,2px)}80%{filter:none;transform:translate(-1px,-1px)}}
+.flashred{animation:flashred .35s}@keyframes flashred{0%{box-shadow:inset 0 0 60px rgba(255,42,42,.5)}100%{box-shadow:none}}
+.flashgreen{animation:flashgreen .5s}@keyframes flashgreen{0%{box-shadow:inset 0 0 60px rgba(0,255,65,.4)}100%{box-shadow:none}}
+
+/* OVERLAYS */
+.overlay{position:fixed;inset:0;z-index:10000;background:rgba(2,2,2,.97);display:flex;align-items:center;justify-content:center;flex-direction:column;overflow-y:auto;padding:30px}
+.overlay.hidden{display:none}
+#start .title{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:44px;letter-spacing:7px;color:var(--white);text-align:center}
+#start .title b{color:var(--red);text-shadow:var(--glow-red)}
+#start .tagline{color:var(--dim);letter-spacing:5px;font-size:11px;margin-top:6px}
+#start .namewrap{margin:22px 0 6px;text-align:center}
+#start .namewrap label{font-size:9px;letter-spacing:2px;color:var(--dim);display:block;margin-bottom:6px}
+#start .namewrap input{background:var(--panel);border:1px solid var(--line-bright);color:var(--green);font-family:'Chakra Petch',sans-serif;font-size:14px;letter-spacing:2px;text-align:center;padding:8px 16px;width:280px;outline:none}
+#start .namewrap input:focus{border-color:var(--green);box-shadow:0 0 14px rgba(0,255,65,.2)}
+#start .prompt{color:var(--green);font-size:11px;letter-spacing:2px;margin:18px 0 14px;text-align:center}
+.nations-choice{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;max-width:1100px}
+.nchoice{width:200px;border:1px solid var(--line-bright);padding:14px;cursor:pointer;transition:all .18s;background:rgba(255,255,255,.01)}
+.nchoice:hover{border-color:var(--green);box-shadow:0 0 22px rgba(0,255,65,.18);transform:translateY(-3px)}
+.nchoice h3{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;letter-spacing:.5px;margin-bottom:4px}
+.nchoice .desc{font-size:9px;color:var(--dim);line-height:1.45;margin-bottom:10px;min-height:52px}
+.nchoice .stats{font-size:9px;line-height:1.65}
+.nchoice .stats span{color:var(--dim)}.nchoice .stats b{float:right}
+.nchoice .fl{margin-top:9px;font-size:8.5px;color:var(--dim);font-style:italic}
+#start .hint{margin-top:24px;color:var(--line-bright);font-size:9px;letter-spacing:2px;text-align:center}
+.blink{animation:blink 1s steps(1) infinite}
+
+#gameover .skull{font-size:56px}
+#gameover .gtitle{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:38px;letter-spacing:5px;text-align:center;margin:8px 0}
+#gameover .greason{color:var(--white);font-size:12.5px;letter-spacing:.5px;text-align:center;max-width:560px;line-height:1.7;margin-bottom:6px}
+#gameover .gstats{color:var(--dim);font-size:11px;text-align:center;line-height:1.9;margin:16px 0}
+#gameover .gstats b{color:var(--amber)}
+.btn{font-family:'Chakra Petch',sans-serif;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:12px 34px;background:transparent;border:1px solid var(--green);color:var(--green);cursor:pointer;font-size:12px;transition:all .18s;margin-top:12px}
+.btn:hover{background:var(--green);color:var(--black);box-shadow:0 0 24px rgba(0,255,65,.5)}
+.btn.red{border-color:var(--red);color:var(--red)}
+.btn.red:hover{background:var(--red);color:var(--black);box-shadow:0 0 24px rgba(255,42,42,.5)}
+
+.float{position:fixed;z-index:9500;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;pointer-events:none;animation:floatup 1.3s ease-out forwards;text-shadow:0 0 8px currentColor}
+@keyframes floatup{0%{opacity:0;transform:translateY(0) scale(.8)}15%{opacity:1}100%{opacity:0;transform:translateY(-54px) scale(1.1)}}
+
+@media (max-width:960px){#main{grid-template-columns:1fr}#stats{flex-wrap:wrap}#subres{display:none}.upgrid,.missiongrid{grid-template-columns:1fr 1fr}.sc-grid{grid-template-columns:1fr}body{font-size:11.5px}}
+</style>
+</head>
+<body>
+<div class="crt-flicker"></div>
+
+<!-- START -->
+<div class="overlay" id="start">
+  <div class="title">SOVEREIGN<span style="color:var(--dim);font-size:22px;letter-spacing:4px"> // </span><b>GLOBAL CHECKMATE</b></div>
+  <div class="tagline">UNDERGROUND WAR ROOM · CLEARANCE OMEGA · ONE WORLD, ONE RULER</div>
+  <div class="namewrap">
+    <label>ENTER YOUR LEADER CODENAME</label>
+    <input id="leaderInput" type="text" maxlength="22" value="THE CHAIRMAN" spellcheck="false">
+  </div>
+  <div class="prompt blink">> SELECT REGIME DOCTRINE TO BEGIN OPERATION_</div>
+  <div class="nations-choice" id="regimeChoices"></div>
+  <div class="hint">ⓘ KEEP APPROVAL ABOVE 20% · COMMAND YOUR CABINET · ANNEX, PUPPET, OR OUT-INFLUENCE THE WORLD</div>
+</div>
+
+<!-- GAME OVER -->
+<div class="overlay hidden" id="gameover">
+  <div class="skull" id="goSkull">☠</div>
+  <div class="gtitle" id="goTitle">YOU HAVE BEEN OVERTHROWN</div>
+  <div class="greason" id="goReason"></div>
+  <div class="gstats" id="goStats"></div>
+  <button class="btn red" onclick="location.reload()">⟳ SEIZE POWER AGAIN</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="panel" id="topbar">
+    <div id="brand">
+      <div class="logo">SOVEREIGN<b>·</b></div>
+      <div class="sub" id="regimeLabel">— REGIME —</div>
+      <div class="leader" id="leaderLabel"></div>
+    </div>
+    <div id="stats">
+      <div class="stat treasury"><div class="lbl">Treasury</div><div class="val" id="sTreasury">$0</div><div class="delta" id="sTreasuryD">+0/s</div></div>
+      <div class="stat manpower"><div class="lbl">Manpower</div><div class="val" id="sManpower">0</div><div class="delta" id="sManpowerD">0 max</div></div>
+      <div class="stat pc"><div class="lbl">Pol. Capital</div><div class="val" id="sPC">0</div><div class="delta" id="sPCD">+0/s</div></div>
+      <div class="stat approval" id="approvalStat"><div class="lbl">Public Approval</div><div class="val" id="sApproval">0%</div><div id="approvalbar"><i></i></div></div>
+    </div>
+    <div id="subres">
+      <div class="subitem tech"><span>MIL TECH</span><b id="sTech">0</b></div>
+      <div class="subitem spy"><span>SPY NET</span><b id="sSpy">0/10</b></div>
+      <div class="subitem nuke"><span>NUKES</span><b id="sNuke">0/5</b></div>
+    </div>
+    <div id="defcon"><div class="lbl">DEFCON</div><div class="num" id="sDefcon">5</div><div class="desc" id="sDefconDesc">PEACETIME</div></div>
+  </div>
+
+  <div class="panel" id="ticker"><div class="tag">LIVE FEED</div><div id="tickerstream"><span>War room online. Awaiting directives.</span></div></div>
+
+  <div id="objectives">
+    <div class="obj dom"><div class="ol">TOTAL DOMINATION <b id="objDomP">0%</b></div><div class="ob"><i id="objDom" style="width:0"></i></div></div>
+    <div class="obj econ"><div class="ol">ECONOMIC HEGEMONY <b id="objEconP">0%</b></div><div class="ob"><i id="objEcon" style="width:0"></i></div></div>
+    <div class="obj infl"><div class="ol">GLOBAL INFLUENCE <b id="objInflP">0%</b></div><div class="ob"><i id="objInfl" style="width:0"></i></div></div>
+  </div>
+
+  <div id="main">
+    <div id="leftcol">
+      <div class="panel" id="map">
+        <div class="ph">WORLD MAP // TARGET REGIONS <span><span id="annexCount">0</span>/<span id="totalNations">0</span> CONTROLLED <span class="blip"></span></span></div>
+        <div id="mapgrid"></div>
+        <div id="actiondock">
+          <div class="target" id="targetInfo">NO TARGET SELECTED — click a region on the map</div>
+          <div class="actbtns">
+            <button class="actbtn diplo" id="btnRelations">Diplomacy<span class="cost">—</span></button>
+            <button class="actbtn diplo" id="btnRebels">Fund Rebels<span class="cost">—</span></button>
+            <button class="actbtn puppet" id="btnPuppet">Install Puppet<span class="cost">—</span></button>
+            <button class="actbtn invade" id="btnInvade">⚔ Invade<span class="cost">—</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="rightcol">
+      <div class="panel" id="crisis">
+        <div class="ph">CRISIS DESK // INCOMING DISPATCHES <span class="blip" style="background:var(--red);box-shadow:var(--glow-red)"></span></div>
+        <div id="crisisbody">
+          <div id="noevent"><span class="big">// STANDBY //</span>No active crisis. The situation is stable... for now.<br><span id="nextin">Next dispatch incoming...</span></div>
+        </div>
+      </div>
+      <div class="panel" id="termpanel">
+        <div class="ph">TERMINAL LOG // SECURE FEED</div>
+        <div id="terminal"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="ops">
+    <div id="tabs">
+      <div class="tab active" data-tab="economy">⚙ Economy</div>
+      <div class="tab" data-tab="military">⚔ Military</div>
+      <div class="tab" data-tab="espionage">⚇ Espionage</div>
+      <div class="tab" data-tab="propaganda">📣 Propaganda</div>
+      <div class="tab" data-tab="statecraft">♛ Statecraft</div>
+    </div>
+    <div id="tabbody"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ================= SOVEREIGN: GLOBAL CHECKMATE — expanded engine ================= */
+
+const REGIMES={
+  democracy:{name:"WEALTHY DEMOCRACY",color:"var(--blue)",desc:"Deep coffers and a loyal populace, but a thin army and a fragile war machine.",
+    treasury:6500,manpower:220,manpowerMax:560,pc:95,approval:78,economyLvl:3,milTech:0,spy:2,flavor:"The markets adore you. The generals do not."},
+  autocracy:{name:"MILITARIST AUTOCRACY",color:"var(--red)",desc:"Vast armies and superior weaponry, but the people simmer with resentment.",
+    treasury:2600,manpower:660,manpowerMax:920,pc:55,approval:46,economyLvl:1,milTech:3,spy:3,flavor:"Fear is a currency. Spend it wisely."},
+  developing:{name:"DEVELOPING NATION",color:"var(--green)",desc:"Modest in every way, but hungry, agile, and underestimated by the great powers.",
+    treasury:1200,manpower:340,manpowerMax:500,pc:50,approval:62,economyLvl:1,milTech:1,spy:2,flavor:"They will not see you coming."},
+  theocracy:{name:"DIVINE THEOCRACY",color:"var(--amber)",desc:"Fanatical loyalty and immunity to foreign lies, but isolated from world markets.",
+    treasury:2000,manpower:480,manpowerMax:700,pc:70,approval:70,economyLvl:1,milTech:1,spy:1,flavor:"The faithful do not question. They obey."},
+  shadow:{name:"SHADOW SYNDICATE",color:"var(--purple)",desc:"A cartel-state ruled from the shadows. Unmatched espionage, but volatile legitimacy.",
+    treasury:3200,manpower:300,manpowerMax:520,pc:80,approval:54,economyLvl:2,milTech:1,spy:6,flavor:"Power that hides is power that endures."}
+};
+
+const NATION_POOL=[
+  {name:"NORTHGARD FEDERATION",def:120,income:8},{name:"REPUBLIC OF VALCRESS",def:90,income:6},
+  {name:"KAEDON EMPIRE",def:215,income:14,nuke:true},{name:"SOUTHERN COALITION",def:150,income:10},
+  {name:"AZURE ISLES",def:70,income:5},{name:"IRONHOLD STATE",def:245,income:16,nuke:true},
+  {name:"MERIDIAN UNION",def:130,income:9},{name:"SERVANI KHANATE",def:175,income:11},
+  {name:"PACT OF DRELLA",def:100,income:7},{name:"VOLKAR DOMINION",def:285,income:19,nuke:true},
+  {name:"THE SILK PROTECTORATE",def:115,income:8},{name:"ZEPHYR COMMONWEALTH",def:160,income:10},
+  {name:"CASPIAN REPUBLIC",def:105,income:7},{name:"OBSIDIAN STATES",def:195,income:13},
+  {name:"FREELANDS OF MARN",def:80,income:6},{name:"THE GOLDEN HORDE",def:230,income:15}
+];
+
+/* ---- UPGRADES ---- */
+const UPGRADES={
+  economy:[
+    {id:"factory",name:"FACTORY COMPLEX",res:"treasury",base:600,mul:1.55,max:15,desc:l=>`+${4+l*2}/s passive income. Heavy industry online.`},
+    {id:"techhub",name:"TECH HUB",res:"treasury",base:1500,mul:1.7,max:10,desc:l=>`+${3+l}/s treasury & +0.4/s political capital.`},
+    {id:"tradenet",name:"TRADE NETWORK",res:"treasury",base:3000,mul:1.8,max:8,desc:l=>`+12% income multiplier. Globalizes your economy.`},
+    {id:"reserve",name:"CENTRAL RESERVE",res:"treasury",base:5000,mul:1.85,max:6,desc:l=>`+8% income & softens currency crises.`},
+    {id:"blackmkt",name:"BLACK MARKET",res:"pc",base:120,mul:1.6,max:8,desc:l=>`+${l*3}/s untaxed income, but slowly erodes approval.`}
+  ],
+  military:[
+    {id:"draft",name:"DRAFT LAWS",res:"pc",base:60,mul:1.5,max:12,desc:l=>`+${40+l*15} max manpower & faster regen.`},
+    {id:"weapons",name:"ADVANCED WEAPONS",res:"treasury",base:1200,mul:1.6,max:12,desc:l=>`+1 Military Tech. Sharply raises invasion odds.`},
+    {id:"logistics",name:"WAR LOGISTICS",res:"treasury",base:900,mul:1.55,max:10,desc:l=>`-8% manpower cost on all invasions.`},
+    {id:"navy",name:"BLUE-WATER NAVY",res:"treasury",base:2200,mul:1.65,max:8,desc:l=>`+ invasion power vs island/coastal states.`},
+    {id:"airforce",name:"AIR DOMINANCE",res:"treasury",base:2600,mul:1.7,max:8,desc:l=>`+5% invasion success & faster victories.`}
+  ],
+  espionage:[
+    {id:"spynet",name:"SPY NETWORK",res:"pc",base:80,mul:1.55,max:8,desc:l=>`+1 Spy Net. Raises all mission success.`},
+    {id:"agents",name:"DEEP COVER AGENTS",res:"pc",base:140,mul:1.6,max:8,desc:l=>`Sabotage & rebels bleed enemies faster.`},
+    {id:"counterint",name:"COUNTER-INTEL",res:"pc",base:160,mul:1.6,max:8,desc:l=>`-15% chance your ops get traced back to you.`},
+    {id:"cyber",name:"CYBER COMMAND",res:"treasury",base:1800,mul:1.7,max:8,desc:l=>`Unlocks stronger sabotage; defends the grid.`}
+  ],
+  propaganda:[
+    {id:"media",name:"STATE MEDIA",res:"treasury",base:500,mul:1.55,max:12,desc:l=>`+0.6/s passive approval drift.`},
+    {id:"censor",name:"INTERNET CENSORSHIP",res:"pc",base:120,mul:1.6,max:10,desc:l=>`-10% approval loss from failed wars & crises.`},
+    {id:"cult",name:"CULT OF PERSONALITY",res:"pc",base:300,mul:1.75,max:6,desc:l=>`Successful invasions grant +4 approval each.`},
+    {id:"educ",name:"INDOCTRINATION",res:"treasury",base:1400,mul:1.65,max:8,desc:l=>`-25% coup risk growth. Loyal from birth.`},
+    {id:"diplomacy",name:"DIPLOMATIC CORPS",res:"pc",base:200,mul:1.6,max:8,desc:l=>`-12% cost of diplomacy & faster alliances.`}
+  ]
+};
+
+/* ---- ADVISORS ---- */
+const ADVISOR_DEFS=[
+  {role:"general",title:"MINISTER OF WAR",names:["Marshal Voss","General Reyes","Marshal Dane","General Kohl"],agenda:"Hungers for endless war and glory.",align:"military"},
+  {role:"finance",title:"FINANCE MINISTER",names:["Min. Albrecht","Min. Saito","Min. Carrow","Min. Volkova"],agenda:"Wants wealth, stability, and open markets.",align:"economy"},
+  {role:"spymaster",title:"INTELLIGENCE CHIEF",names:["Director Wren","Director Asael","Director Pike","Director Noor"],agenda:"Trusts no one; covets secrets and leverage.",align:"espionage"},
+  {role:"press",title:"PRESS SECRETARY",names:["Sec. Hale","Sec. Moreau","Sec. Banks","Sec. Idris"],agenda:"Obsessed with image, loyalty, and control.",align:"propaganda"}
+];
+
+/* ---- SPY MISSIONS ---- */
+const MISSIONS=[
+  {id:"intel",name:"GATHER INTEL",desc:"Map a target's true strength.",pc:20,tre:0,base:.75,dur:3,
+    ok:n=>{n.intel=true;log("INTEL: full dossier on "+n.name+" acquired.","purple");},
+    bad:n=>{raiseTension(3);log("Agent in "+n.name+" detected. Minor incident.","amber");}},
+  {id:"sabotage",name:"SABOTAGE ECONOMY",desc:"Cripple a rival's industry.",pc:35,tre:300,base:.6,dur:4,
+    ok:n=>{n.income=Math.max(1,Math.round(n.income*.7));n.def=Math.max(10,n.def-15);log("SABOTAGE: "+n.name+"'s economy reels.","purple");},
+    bad:n=>{raiseTension(8);addApproval(-3);log("Sabotage in "+n.name+" exposed! Global condemnation.","red");}},
+  {id:"assassinate",name:"ASSASSINATE OFFICIAL",desc:"Decapitate enemy leadership.",pc:50,tre:600,base:.45,dur:4,
+    ok:n=>{n.def=Math.max(10,Math.round(n.def*.6));n.destab+=8;log("ASSASSINATION: "+n.name+" thrown into chaos.","purple");},
+    bad:n=>{raiseTension(14);addApproval(-6);advLoyalty('spymaster',-8);log("Assassination FAILED in "+n.name+". Diplomatic firestorm.","red");shake();}},
+  {id:"steal",name:"STEAL TECHNOLOGY",desc:"Lift advanced weapons research.",pc:45,tre:200,base:.55,dur:5,
+    ok:n=>{S.milTech+=1;log("THEFT: military tech extracted from "+n.name+". +1 Mil Tech.","purple");},
+    bad:n=>{raiseTension(7);log("Tech-theft op blown in "+n.name+".","amber");}},
+  {id:"disinfo",name:"PLANT DISINFORMATION",desc:"Turn the world against a rival.",pc:30,tre:0,base:.7,dur:3,
+    ok:n=>{n.rel=clamp(n.rel-30,-100,100);n.def=Math.max(10,n.def-10);log("DISINFO: "+n.name+" isolated on the world stage.","purple");},
+    bad:n=>{addApproval(-2);log("Disinfo campaign traced to you. Mild backlash.","amber");}},
+  {id:"fundopp",name:"FUND OPPOSITION",desc:"Bankroll a rival's collapse.",pc:40,tre:400,base:.65,dur:4,
+    ok:n=>{n.destab+=12+S.upgrades.agents*3;n.def=Math.max(10,n.def-Math.round(n.baseDef*.12));log("OPPOSITION: insurgency surges in "+n.name+".","purple");},
+    bad:n=>{raiseTension(6);log("Funding trail uncovered in "+n.name+".","amber");}}
+];
+
+/* ---- EVENTS (32) ---- */
+const EVENTS=[
+  {tag:"MILITARY",title:"Border Skirmish",brief:"general",
+   body:"Enemy patrols crossed into your eastern frontier. Hawks demand blood; doves demand restraint.",
+   choices:[
+    {text:"Retaliate with overwhelming force",eff:"-60 MP · +6 Approval · Tension↑ · General+",do:()=>{S.manpower-=60;addApproval(6);raiseTension(8);advLoyalty('general',8);log("Frontier secured. Flags draped in glory.","red");}},
+    {text:"Stand down, file a protest",eff:"-4 Approval · +15 PC · General-",do:()=>{addApproval(-4);S.pc+=15;advLoyalty('general',-6);log("Restraint shown. Doves applaud, generals seethe.","blue");}},
+    {text:"Bribe the enemy commander",eff:"-800 $ · +3 Approval",do:()=>{S.treasury-=800;addApproval(3);log("The commander 'reconsiders'. Money talks.","green");}}]},
+  {tag:"ECONOMY",title:"Oligarchs Demand Tax Cuts",brief:"finance",
+   body:"Industrialists threaten to flee with their capital unless you slash their taxes. They funded your rise.",
+   choices:[
+    {text:"Grant the tax cuts",eff:"-1200 $ · +25 PC · -3 Approval · Finance+",do:()=>{S.treasury-=1200;S.pc+=25;addApproval(-3);advLoyalty('finance',8);log("Oligarchs purr. Yachts grow longer overnight.","amber");}},
+    {text:"Nationalize their assets",eff:"+2200 $ · -12 Approval · -20 PC · Finance--",do:()=>{S.treasury+=2200;addApproval(-12);S.pc-=20;advLoyalty('finance',-15);log("State seizes the means. Elites declare war on you.","red");}},
+    {text:"Ignore them",eff:"-10 PC · minor unrest",do:()=>{S.pc-=10;addApproval(-2);log("You call their bluff. They do not forget.","dim");}}]},
+  {tag:"CYBER",title:"Cyberattack Detected",brief:"spymaster",glitch:true,
+   body:"An unknown actor has breached your infrastructure grid. Treasury databases held hostage. Every second counts.",
+   choices:[
+    {text:"Pay the ransom",eff:"-1500 $",do:()=>{S.treasury-=1500;log("Ransom paid. The bleeding stops; shame remains.","red");}},
+    {text:"Trace and counter-hack",eff:"-25 PC · 50% lose 1000 $ · Spymaster+",do:()=>{S.pc-=25;advLoyalty('spymaster',6);if(Math.random()<.5-S.upgrades.cyber*.05){S.treasury-=1000;log("Counter-hack failed. Funds siphoned into the void.","red");}else log("Counter-hack succeeds. You log their faces.","green");}},
+    {text:"Cut the grid and rebuild",eff:"-400 $ · -6 Approval",do:()=>{S.treasury-=400;addApproval(-6);log("Grid severed. Blackout nationwide.","amber");}}]},
+  {tag:"DOMESTIC",title:"Bread Riots",brief:"press",
+   body:"Economic inequality sparks protests in three major cities. The chants reach the war room's concrete walls.",
+   choices:[
+    {text:"Deploy riot suppression",eff:"-40 MP · -8 Approval · +20 PC",do:()=>{S.manpower-=40;addApproval(-8);S.pc+=20;log("Streets cleared by force. Order, at a cost.","red");shake();}},
+    {text:"Economic relief package",eff:"-2000 $ · +14 Approval",do:()=>{S.treasury-=2000;addApproval(14);log("Promises made. Crowds disperse, cautiously hopeful.","green");}},
+    {text:"Blame foreign agitators",eff:"+5 Approval · Tension↑ · Press+",do:()=>{addApproval(5);raiseTension(6);advLoyalty('press',7);log("The enemy within becomes the enemy without.","amber");}}]},
+  {tag:"DIPLOMACY",title:"Foreign Aid Package",brief:"finance",
+   body:"A great power offers generous aid — with strings attached. Accept and you dance to their tune.",
+   choices:[
+    {text:"Accept the aid",eff:"+2500 $ · -15 PC",do:()=>{S.treasury+=2500;S.pc-=15;lowerTension(6);log("Coffers swell. Sovereignty quietly mortgaged.","green");}},
+    {text:"Reject — we bow to no one",eff:"+18 Approval · -8 PC",do:()=>{addApproval(18);S.pc-=8;log("Defiance broadcast nationwide. The people roar.","green");}},
+    {text:"Take it, then betray them",eff:"+2500 $ · -10 Approval · Tension↑",do:()=>{S.treasury+=2500;addApproval(-10);raiseTension(10);log("You pocket the gold and burn the bridge.","red");}}]},
+  {tag:"INTERNAL",title:"Whispers of a Coup",brief:"general",
+   body:"A clique of senior officers plots in the shadows. Act now, or wait and watch.",
+   choices:[
+    {text:"Purge the officer corps",eff:"-30 PC · -4 Approval · risk cleared · General--",do:()=>{S.pc-=30;addApproval(-4);S.coupRisk=Math.max(0,S.coupRisk-35);advLoyalty('general',-12);log("The disloyal vanish before dawn.","red");}},
+    {text:"Buy their loyalty",eff:"-1800 $ · risk eased · General+",do:()=>{S.treasury-=1800;S.coupRisk=Math.max(0,S.coupRisk-20);advLoyalty('general',8);log("Gold flows to the brass. Daggers stay sheathed.","amber");}},
+    {text:"Do nothing and hope",eff:"GAMBLE — risk rises",do:()=>{S.coupRisk+=16;log("You ignore the whispers. They grow louder.","dim");}}]},
+  {tag:"DISASTER",title:"Catastrophic Earthquake",brief:"press",
+   body:"A magnitude 8.1 quake levels an industrial province. Thousands displaced; your factories lie in rubble.",
+   choices:[
+    {text:"Mobilize full relief",eff:"-1600 $ · +12 Approval",do:()=>{S.treasury-=1600;addApproval(12);log("Relief convoys roll out. The nation sees a leader who cares.","green");}},
+    {text:"Token response, downplay it",eff:"-9 Approval · Press+",do:()=>{addApproval(-9);advLoyalty('press',5);log("Cameras turned away. Grief is real; coverage is not.","amber");}},
+    {text:"Redirect the military to rebuild",eff:"-50 MP · +6 Approval",do:()=>{S.manpower-=50;addApproval(6);log("Soldiers trade rifles for shovels. Rubble clears.","white");}}]},
+  {tag:"BLACK MARKET",title:"Black Market Arms Deal",brief:"general",
+   body:"A shadowy broker offers a crate of next-gen weaponry — no questions asked. Steep price, steeper risk.",
+   choices:[
+    {text:"Buy the arsenal",eff:"-2200 $ · +1 Mil Tech",do:()=>{S.treasury-=2200;S.milTech+=1;advLoyalty('general',5);log("Serial numbers filed. Your army upgrades overnight.","green");}},
+    {text:"Decline — too risky",eff:"+10 PC",do:()=>{S.pc+=10;log("You wave the broker off. Caution is its own weapon.","blue");}},
+    {text:"Seize goods, arrest broker",eff:"+1 Mil Tech · +8 Approval · Tension↑",do:()=>{S.milTech+=1;addApproval(8);raiseTension(5);log("Broker paraded on state TV. Bold. Reckless.","amber");}}]},
+  {tag:"FOREIGN",title:"The Refugee Wave",brief:"finance",
+   body:"200,000 refugees from a collapsing neighbor flood your border. The world is watching how you respond.",
+   choices:[
+    {text:"Open the borders",eff:"+12 Influence · -7 Approval",do:()=>{shiftAllRel(8);addApproval(-7);log("Doors opened. The world applauds; locals grumble.","blue");}},
+    {text:"Seal the border",eff:"-10 Influence · +5 Approval",do:()=>{shiftAllRel(-8);addApproval(5);log("Borders sealed. Sovereignty over sentiment.","amber");}},
+    {text:"Build camps",eff:"-1200 $ · neutral",do:()=>{S.treasury-=1200;log("Camps erected. A managed, joyless compromise.","dim");}},
+    {text:"Use them as leverage",eff:"+18 PC · -5 Approval · Spymaster+",do:()=>{S.pc+=18;addApproval(-5);advLoyalty('spymaster',6);log("Human chess pieces. Cold, but effective.","purple");}}]},
+  {tag:"NUCLEAR",title:"Nuclear Rumors",brief:"spymaster",
+   body:"Intelligence suggests a rival is six months from a working warhead. The window to act is closing.",
+   choices:[
+    {text:"Authorize a sabotage op",eff:"-40 PC · Spymaster+",do:()=>{S.pc-=40;advLoyalty('spymaster',8);const t=randHostile();if(t){t.nuke=false;t.def=Math.max(10,t.def-30);log("Their program sabotaged in the dark. "+t.name+" set back years.","purple");}else log("No viable target. Agents stand down.","dim");}},
+    {text:"Push for global sanctions",eff:"+8 Influence · slow",do:()=>{shiftAllRel(6);raiseTension(-4);log("The world isolates the rogue program. Slow, but safe.","blue");}},
+    {text:"Accept mutual deterrence",eff:"do nothing",do:()=>{log("You accept the balance of terror. For now.","dim");}}]},
+  {tag:"PRESSURE",title:"Great Power Ultimatum",brief:"press",
+   body:"A superpower demands you change a domestic policy or face crushing sanctions. The nation watches your spine.",
+   choices:[
+    {text:"Comply",eff:"-8 Approval · avoid sanctions",do:()=>{addApproval(-8);log("You bend the knee. Sanctions averted, pride wounded.","amber");}},
+    {text:"Defy publicly",eff:"+16 Approval · Tension↑ · -1500 $ risk",do:()=>{addApproval(16);raiseTension(10);if(Math.random()<.5){S.treasury-=1500;log("Sanctions bite, but you stand tall. The people adore it.","green");}else log("They blink. Your defiance pays off.","green");}},
+    {text:"Find an alternate patron",eff:"+1000 $ · -10 Influence",do:()=>{S.treasury+=1000;shiftAllRel(-6);log("You realign to a new master. The board shifts.","blue");}}]},
+  {tag:"INTEL",title:"The Spy in the Cabinet",brief:"spymaster",
+   body:"One of your advisors is leaking to a foreign power. The Intelligence Chief has names — but no proof yet.",
+   choices:[
+    {text:"Feed them false intel",eff:"+spy edge · Spymaster+",do:()=>{S.spyNetwork=Math.min(10,S.spyNetwork+1);advLoyalty('spymaster',8);log("The leak becomes your weapon. Disinformation flows out.","purple");}},
+    {text:"Arrest quietly",eff:"-1 random advisor loyalty · safe",do:()=>{const a=S.advisors[randInt(0,3)];a.loyalty=clamp(a.loyalty-10,0,100);log("A quiet arrest. The cabinet grows nervous.","amber");}},
+    {text:"Do nothing, monitor",eff:"risk continues",do:()=>{S.coupRisk+=6;log("You watch and wait. The leak persists.","dim");}}]},
+  {tag:"MILITARY",title:"Your Generals Want War",brief:"general",
+   body:"Military leadership pushes to invade a weakened neighbor. Public opinion is behind them. The dossier is on your desk.",
+   choices:[
+    {text:"Authorize the invasion",eff:"auto-weaken a hostile · +Approval · General+",do:()=>{addApproval(6);advLoyalty('general',10);const t=randHostile()||randNeutral();if(t){t.def=Math.max(10,Math.round(t.def*.55));t.status='hostile';t.destab+=6;log("The war machine turns on "+t.name+". Their lines buckle.","red");}}},
+    {text:"Delay with diplomatic cover",eff:"+12 PC · General-",do:()=>{S.pc+=12;advLoyalty('general',-7);log("You stall. The generals grind their teeth.","blue");}},
+    {text:"Refuse outright",eff:"+8 Approval · General--",do:()=>{addApproval(8);advLoyalty('general',-12);log("Principled restraint. The brass will remember.","amber");}}]},
+  {tag:"ECONOMY",title:"Currency Collapse",brief:"finance",
+   body:"Your currency drops 40% in 48 hours as capital flees. Markets are in freefall and so is public confidence.",
+   choices:[
+    {text:"Impose currency controls",eff:"-1500 $ · stabilize · Finance-",do:()=>{S.treasury-=1500;advLoyalty('finance',-6);log("Capital frozen in place. The bleeding slows.","amber");}},
+    {text:"Request IMF bailout",eff:"+3000 $ · -12 Influence",do:()=>{S.treasury+=3000;shiftAllRel(-8);log("Bailout secured. Your strings now reach abroad.","blue");}},
+    {text:"Blame foreign speculators",eff:"+6 Approval · -1000 $",do:()=>{addApproval(6);S.treasury-=1000;log("Scapegoats named. The mob is satisfied; the hole remains.","amber");}}]},
+  {tag:"FOREIGN",title:"Oil Discovery",brief:"finance",
+   body:"Massive offshore oil reserves found — but a rival claims the waters. Fortune and conflict in equal measure.",
+   choices:[
+    {text:"Extract immediately",eff:"+15/s income (annexed-style) · Tension↑",do:()=>{S.oilBonus=(S.oilBonus||0)+15;raiseTension(10);log("Rigs go up overnight. The rival is furious.","green");}},
+    {text:"Negotiate shared rights",eff:"+8/s income · +Influence",do:()=>{S.oilBonus=(S.oilBonus||0)+8;shiftAllRel(5);log("A shared bounty. Compromise, but lasting.","blue");}},
+    {text:"Military assertion",eff:"-90 MP · +20/s if held · big Tension↑",do:()=>{S.manpower-=90;S.oilBonus=(S.oilBonus||0)+20;raiseTension(16);advLoyalty('general',7);log("Gunboats take the field. The oil is yours — and so is the risk.","red");}}]},
+  {tag:"DOMESTIC",title:"The Journalist",brief:"press",
+   body:"An investigative reporter is about to publish evidence of regime corruption. The presses are warming up.",
+   choices:[
+    {text:"Silence the press",eff:"-12 Influence · +18 PC · Press+",do:()=>{shiftAllRel(-10);S.pc+=18;advLoyalty('press',8);log("The story dies. So does the journalist's career.","red");}},
+    {text:"Buy them off",eff:"-1200 $",do:()=>{S.treasury-=1200;log("Silence has a price. You pay it.","amber");}},
+    {text:"Let it run, deny everything",eff:"-8 Approval · +6 Influence",do:()=>{addApproval(-8);shiftAllRel(5);log("The truth airs. You smile and call it lies.","blue");}}]},
+  {tag:"PANDEMIC",title:"The Pandemic",brief:"finance",glitch:true,
+   body:"A novel pathogen spreads worldwide. Your health minister estimates 18 months to manage it. The clock is ticking.",
+   choices:[
+    {text:"Total lockdown",eff:"-2000 $ · +8 Approval",do:()=>{S.treasury-=2000;addApproval(8);log("The nation shutters. Lives saved; ledgers bleed.","amber");}},
+    {text:"Herd immunity gamble",eff:"+income · -10 Approval",do:()=>{addApproval(-10);S.oilBonus=(S.oilBonus||0)+5;log("Factories stay open. The graveyards fill quietly.","red");}},
+    {text:"Lead a global coalition",eff:"-1000 $ · +14 Influence",do:()=>{S.treasury-=1000;shiftAllRel(10);log("You marshal the world. Statesmanship pays in standing.","blue");}}]},
+  {tag:"INTERNAL",title:"The Constitution",brief:"press",
+   body:"Your legislature pushes for constitutional limits on your power. The ink is being drafted as we speak.",
+   choices:[
+    {text:"Accept the limits",eff:"+14 Approval · -20 PC",do:()=>{addApproval(14);S.pc-=20;log("Restraint enshrined. Legitimacy bought with power.","blue");}},
+    {text:"Dissolve the legislature",eff:"-9 Approval · +30 PC · risk↑",do:()=>{addApproval(-9);S.pc+=30;S.coupRisk+=8;log("Parliament padlocked. You rule by decree now.","red");}},
+    {text:"Hold a rigged referendum",eff:"+6 Approval · Press+",do:()=>{addApproval(6);advLoyalty('press',6);log("98.7% approval. Democracy, as you define it.","amber");}}]},
+  {tag:"MILITARY",title:"War by Accident",brief:"general",
+   body:"A misfire by your navy sank a foreign vessel; three sailors are dead. Their government wants answers by dawn.",
+   choices:[
+    {text:"Apologize and compensate",eff:"-800 $ · -3 Approval · avoid war",do:()=>{S.treasury-=800;addApproval(-3);lowerTension(4);log("You bow and pay. The matter is closed.","blue");}},
+    {text:"Call it self-defense",eff:"+6 Approval · Tension↑↑",do:()=>{addApproval(6);raiseTension(14);advLoyalty('general',6);log("No apology. The drums begin to beat.","red");}},
+    {text:"Bury the incident",eff:"+10 PC · time bomb",do:()=>{S.pc+=10;S.coupRisk+=4;log("The footage disappears. For now.","dim");}}]},
+  {tag:"INTEL",title:"The Defector",brief:"spymaster",
+   body:"A top official from a rival nation wants to defect to you with a briefcase of intelligence files.",
+   choices:[
+    {text:"Accept the defector",eff:"+1 Spy Net · Tension↑",do:()=>{S.spyNetwork=Math.min(10,S.spyNetwork+1);raiseTension(8);advLoyalty('spymaster',7);log("A goldmine of secrets walks through your door.","purple");}},
+    {text:"Take files, return the person",eff:"+1 Spy Net · -6 Influence",do:()=>{S.spyNetwork=Math.min(10,S.spyNetwork+1);shiftAllRel(-6);log("You keep the files and the betrayal. Ruthless.","red");}},
+    {text:"Refuse — it's a trap",eff:"+8 PC · safe",do:()=>{S.pc+=8;log("Paranoia, perhaps. But you sleep soundly.","blue");}}]},
+  {tag:"FOREIGN",title:"Stolen Election Next Door",brief:"spymaster",
+   body:"A neighboring election was stolen by a hostile power. The streets there are filling with the betrayed.",
+   choices:[
+    {text:"Back the true winner",eff:"-30 PC · destabilize a rival",do:()=>{S.pc-=30;const t=randHostile();if(t){t.destab+=12;t.def=Math.max(10,t.def-20);log("You fuel the opposition in "+t.name+". The regime wobbles.","purple");}}},
+    {text:"Recognize the false government",eff:"+700 $ · pragmatic",do:()=>{S.treasury+=700;log("You shake the bloody hand. Business is business.","dim");}},
+    {text:"Exploit the chaos",eff:"+20 PC · Spymaster+",do:()=>{S.pc+=20;advLoyalty('spymaster',6);log("In confusion, opportunity. Your agents move.","purple");}}]},
+  {tag:"DOMESTIC",title:"Energy Crisis",brief:"finance",
+   body:"Fuel prices spike 60%. Lines snake around every station and the public demands you do something — anything.",
+   choices:[
+    {text:"Subsidize fuel",eff:"-1800 $ · +6 Approval",do:()=>{S.treasury-=1800;addApproval(6);log("Pumps flow cheap again. The treasury groans.","amber");}},
+    {text:"Invest in renewables",eff:"-2400 $ · long-term income",do:()=>{S.treasury-=2400;S.oilBonus=(S.oilBonus||0)+10;log("A bet on the future. It will pay — eventually.","green");}},
+    {text:"Blame enemy sanctions",eff:"+5 Approval · Tension↑ · Press+",do:()=>{addApproval(5);raiseTension(6);advLoyalty('press',5);log("The shortage is the enemy's doing, of course.","amber");}}]},
+  {tag:"MILITARY",title:"Military Coup Imminent",brief:"general",
+   body:"Intelligence puts the odds of a coup within 48 hours at 60%. The corridors of the war room feel colder tonight.",
+   choices:[
+    {text:"Emergency crackdown",eff:"-25 PC · -6 Approval · risk slashed",do:()=>{S.pc-=25;addApproval(-6);S.coupRisk=Math.max(0,S.coupRisk-45);advLoyalty('general',-10);log("Tanks ring the capital — yours. The plot collapses.","red");shake();}},
+    {text:"Buy off the generals",eff:"-2500 $ · risk eased · General+",do:()=>{S.treasury-=2500;S.coupRisk=Math.max(0,S.coupRisk-30);advLoyalty('general',10);log("Loyalty, purchased by the truckload.","amber");}},
+    {text:"Outmaneuver by going public",eff:"GAMBLE · +Approval or disaster",do:()=>{if(Math.random()<.55){addApproval(14);S.coupRisk=Math.max(0,S.coupRisk-35);log("You expose the plotters on live TV. The people rally.","green");}else{S.coupRisk+=25;addApproval(-8);log("The gambit backfires. The plotters accelerate.","red");}}}]},
+  {tag:"CYBER",title:"The Tech Giant",brief:"finance",
+   body:"A foreign tech conglomerate offers to build your digital backbone — and will almost certainly surveil your citizens for their government.",
+   choices:[
+    {text:"Accept the deal",eff:"+2000 $ · surveillance risk",do:()=>{S.treasury+=2000;S.coupRisk+=3;log("The grid goes up fast. So do the listening posts.","amber");}},
+    {text:"Build your own",eff:"-2200 $ · +1 Spy Net",do:()=>{S.treasury-=2200;S.spyNetwork=Math.min(10,S.spyNetwork+1);log("Slow, costly, sovereign. Your data stays yours.","green");}},
+    {text:"Accept but counter-surveil",eff:"+1500 $ · +1 Spy Net · Spymaster+",do:()=>{S.treasury+=1500;S.spyNetwork=Math.min(10,S.spyNetwork+1);advLoyalty('spymaster',7);log("You let them in — and watch the watchers.","purple");}}]},
+  {tag:"FOREIGN",title:"Assassination Plot Against You",brief:"spymaster",
+   body:"Your intelligence uncovers a foreign plot on your life, traced to a rival's spy agency. The threat is real.",
+   choices:[
+    {text:"Retaliate covertly",eff:"-35 PC · Tension↑ · cripple a rival",do:()=>{S.pc-=35;raiseTension(10);const t=randHostile();if(t){t.def=Math.max(10,Math.round(t.def*.7));log("A quiet answer to a quiet threat. "+t.name+" bleeds.","purple");}}},
+    {text:"Use it as propaganda",eff:"+16 Approval · Press+",do:()=>{addApproval(16);advLoyalty('press',8);log("The survivor-leader. The nation weeps and rallies.","green");}},
+    {text:"Ignore publicly, retaliate later",eff:"+15 PC · cold vengeance",do:()=>{S.pc+=15;log("You smile for the cameras. The ledger is kept.","dim");}}]},
+  {tag:"SPECIAL",title:"The Revolution Next Door",brief:"spymaster",
+   body:"A neighboring people have overthrown their government overnight. The new power is unknown, the borders chaotic.",
+   choices:[
+    {text:"Covertly guide who takes power",eff:"-40 PC · gain a puppet chance",do:()=>{S.pc-=40;const t=randNeutral()||randHostile();if(t){t.destab+=18;t.status='destab';log("Your agents shape the new regime in "+t.name+".","purple");}}},
+    {text:"Offer military protection",eff:"-70 MP · alliance",do:()=>{S.manpower-=70;const t=randNeutral();if(t){t.status='allied';t.rel=clamp(t.rel+40,-100,100);log(t.name+" falls under your protection. A new ally.","blue");}}},
+    {text:"Wait and observe",eff:"+10 PC · safe",do:()=>{S.pc+=10;log("Patience. Let the dust settle before you move.","dim");}}]},
+  {tag:"ECONOMY",title:"The Arms Dealer Returns",brief:"general",
+   body:"The black-market broker is back with a bulk offer: enough hardware to reshape your military overnight.",
+   choices:[
+    {text:"Buy the full shipment",eff:"-3500 $ · +2 Mil Tech",do:()=>{S.treasury-=3500;S.milTech+=2;advLoyalty('general',8);log("Two generations of upgrades in a single night.","green");}},
+    {text:"Buy a modest batch",eff:"-1500 $ · +1 Mil Tech",do:()=>{S.treasury-=1500;S.milTech+=1;log("A measured purchase. Enough to matter.","amber");}},
+    {text:"Turn him in for reward",eff:"+1200 $ · +6 Influence",do:()=>{S.treasury+=1200;shiftAllRel(6);log("Virtue, this once, is profitable.","blue");}}]},
+  {tag:"INTERNAL",title:"Famine in the North",brief:"finance",
+   body:"A drought triggers food shortages affecting four million citizens. The granaries echo empty.",
+   choices:[
+    {text:"Import emergency food aid",eff:"-1700 $ · +12 Approval",do:()=>{S.treasury-=1700;addApproval(12);log("Grain ships dock. Bellies fill; loyalty follows.","green");}},
+    {text:"Ration quietly",eff:"-7 Approval · save money",do:()=>{addApproval(-7);log("Belts tighten by decree. The hunger is managed, not solved.","amber");}},
+    {text:"Hide the numbers",eff:"+8 PC · time bomb · Press+",do:()=>{S.pc+=8;S.coupRisk+=6;advLoyalty('press',5);log("The statistics are 'revised'. The graves are not.","red");}}]},
+  {tag:"SPECIAL",title:"Nuclear Standoff",brief:"general",glitch:true,
+   body:"A crisis has spiraled to nuclear alert. Both sides sit at DEFCON 1. Global stability is in freefall and the world holds its breath.",
+   choices:[
+    {text:"Blink first",eff:"-10 Approval · peace · Tension↓↓",do:()=>{addApproval(-10);lowerTension(30);log("You stand down. The world exhales. History will judge.","blue");}},
+    {text:"Open a secret back channel",eff:"-45 PC · de-escalate cleanly",do:()=>{S.pc-=45;lowerTension(22);addApproval(4);advLoyalty('spymaster',8);log("Quiet diplomacy in the dead of night. Catastrophe averted.","green");}},
+    {text:"Hold firm at the brink",eff:"GAMBLE · glory or oblivion",do:()=>{if(Math.random()<.5){addApproval(20);raiseTension(-10);log("They blink. You are the leader who stared down the apocalypse.","green");}else{log("Neither side blinks. The sirens begin to wail...","red");setTimeout(()=>triggerMAD(),900);}}}]},
+  {tag:"LEGACY",title:"Legacy Moment",brief:"press",req:()=>S.nations.filter(n=>n.status==='annexed'||n.status==='puppet').length>=4,
+   body:"A grand peace deal is on the table: end all conflict and freeze your expansion forever, in exchange for a place in history as a unifier.",
+   choices:[
+    {text:"Accept — seek a legacy of peace",eff:"ALT VICTORY PATH",do:()=>{S.peaceOffer=true;addApproval(20);lowerTension(40);shiftAllRel(20);log("You choose the harder glory. The world begins to trust you.","blue");}},
+    {text:"Reject — domination is the only victory",eff:"+12 Approval · the hard road",do:()=>{addApproval(12);advLoyalty('general',8);log("You tear up the deal. There will be no half-measures.","red");}},
+    {text:"Negotiate better terms",eff:"+2500 $ · +10 Influence",do:()=>{S.treasury+=2500;shiftAllRel(10);log("You bleed the deal for every concession before signing nothing.","amber");}}]},
+  {tag:"DOMESTIC",title:"The People Speak",brief:"press",
+   body:"Citizen feedback floods in. The workers want jobs, the elites want order, the youth want freedom. You cannot satisfy them all.",
+   choices:[
+    {text:"Side with the workers",eff:"-1000 $ · +9 Approval",do:()=>{S.treasury-=1000;addApproval(9);log("Public works announced. The workers cheer your name.","green");}},
+    {text:"Side with the elites",eff:"+1400 $ · -5 Approval · Finance+",do:()=>{S.treasury+=1400;addApproval(-5);advLoyalty('finance',7);log("Order over equity. The donors are pleased.","amber");}},
+    {text:"Promise everyone everything",eff:"+12 Approval · time bomb",do:()=>{addApproval(12);S.coupRisk+=7;log("Grand promises broadcast nationwide. They will come due.","blue");}}]},
+  {tag:"FOREIGN",title:"The Trade Ultimatum",brief:"finance",
+   body:"A major trading partner demands favorable terms or cancels all imports. Your supply chains hang in the balance.",
+   choices:[
+    {text:"Accept the terms",eff:"-6/s income long-term",do:()=>{S.oilBonus=(S.oilBonus||0)-6;log("You sign the unequal treaty. Stability over pride.","amber");}},
+    {text:"Refuse and diversify",eff:"-1500 $ now · +8/s later",do:()=>{S.treasury-=1500;S.oilBonus=(S.oilBonus||0)+8;log("Short pain for independence. New partners sought.","green");}},
+    {text:"Negotiate hard",eff:"+15 PC · diplomatic contest",do:()=>{S.pc+=15;log("You out-bargain them across the table. Respect earned.","blue");}}]}
+];
+
+/* ================= STATE & HELPERS ================= */
+let S=null,tickHandle=null,eventTimer=0,eventInterval=42,gameRunning=false;
+let selectedNation=null,activeTab="economy",activeEvent=null,bankruptTicks=0,headlines=[];
+const $=id=>document.getElementById(id);
+function fmt(n){n=Math.floor(n);if(n>=1e9)return(n/1e9).toFixed(2)+"B";if(n>=1e6)return(n/1e6).toFixed(2)+"M";if(n>=1e4)return(n/1e3).toFixed(1)+"k";return n.toLocaleString("en-US");}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function addApproval(v){S.approval=clamp(S.approval+v,0,100);}
+function raiseTension(v){S.tension=clamp(S.tension+v,0,100);}
+function lowerTension(v){S.tension=clamp(S.tension-v,0,100);}
+function defconLevel(){return clamp(5-Math.floor(S.tension/20),1,5);}
+function advLoyalty(role,d){const a=S.advisors.find(x=>x.role===role);if(a)a.loyalty=clamp(a.loyalty+d,0,100);}
+function shiftAllRel(d){S.nations.forEach(n=>{if(n.status!=='annexed')n.rel=clamp((n.rel||0)+d,-100,100);});}
+function randHostile(){const h=S.nations.filter(n=>n.status==='hostile');return h.length?h[randInt(0,h.length-1)]:null;}
+function randNeutral(){const h=S.nations.filter(n=>n.status==='neutral');return h.length?h[randInt(0,h.length-1)]:null;}
+
+function log(msg,cls){const t=$("terminal");const d=document.createElement("div");d.className="line"+(cls?" lg-"+cls:"");d.innerHTML=msg;t.appendChild(d);while(t.children.length>140)t.removeChild(t.firstChild);t.scrollTop=t.scrollHeight;}
+function headline(txt){headlines.unshift(txt);if(headlines.length>14)headlines.pop();$("tickerstream").innerHTML=headlines.map(h=>`<span>${h}</span>`).join("");}
+function floatText(el,txt,color){if(!el)return;const r=el.getBoundingClientRect();const f=document.createElement("div");f.className="float";f.textContent=txt;f.style.color=color;f.style.left=(r.left+r.width/2-20)+"px";f.style.top=(r.top+8)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),1300);}
+function shake(){const a=$("app");a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake");}
+function glitch(){const a=$("app");a.classList.add("glitch");setTimeout(()=>a.classList.remove("glitch"),550);}
+
+/* ================= START ================= */
+function buildStartScreen(){
+  const c=$("regimeChoices");c.innerHTML="";
+  Object.entries(REGIMES).forEach(([key,r])=>{
+    const el=document.createElement("div");el.className="nchoice";
+    el.innerHTML=`<h3 style="color:${r.color}">${r.name}</h3><div class="desc">${r.desc}</div>
+      <div class="stats">
+        <div><span>Treasury</span><b style="color:var(--green)">$${fmt(r.treasury)}</b></div>
+        <div><span>Manpower</span><b>${r.manpower}/${r.manpowerMax}</b></div>
+        <div><span>Pol. Capital</span><b style="color:var(--blue)">${r.pc}</b></div>
+        <div><span>Approval</span><b style="color:var(--amber)">${r.approval}%</b></div>
+        <div><span>Mil Tech</span><b style="color:var(--red)">${r.milTech}</b></div>
+        <div><span>Spy Net</span><b style="color:var(--purple)">${r.spy}</b></div>
+      </div><div class="fl">"${r.flavor}"</div>`;
+    el.onclick=()=>startGame(key);
+    c.appendChild(el);
+  });
+}
+
+function startGame(key){
+  const r=REGIMES[key];
+  const leader=($("leaderInput").value||"").trim().slice(0,22)||"THE CHAIRMAN";
+  S={regimeKey:key,regimeName:r.name,regimeColor:r.color,leader,
+    treasury:r.treasury,manpower:r.manpower,manpowerMax:r.manpowerMax,pc:r.pc,approval:r.approval,
+    economyLvl:r.economyLvl,milTech:r.milTech,spyNetwork:r.spy,nukes:0,
+    tension:0,coupRisk:0,time:0,oilBonus:0,peaceOffer:false,
+    upgrades:{},nations:[],advisors:[],missions:[],
+    policies:{welfare:20,military:25,surveillance:15,censorship:30}};
+  Object.values(UPGRADES).flat().forEach(u=>S.upgrades[u.id]=0);
+  // nations
+  const pool=[...NATION_POOL].sort(()=>Math.random()-.5);
+  pool.forEach((n,i)=>S.nations.push({id:i,name:n.name,def:n.def+randInt(-20,20),baseDef:n.def,income:n.income,
+    status:Math.random()<.22?"hostile":"neutral",destab:0,rel:randInt(-20,20),nuke:!!n.nuke,intel:false}));
+  // advisors
+  ADVISOR_DEFS.forEach(a=>S.advisors.push({role:a.role,title:a.title,name:a.names[randInt(0,a.names.length-1)],
+    align:a.align,agenda:a.agenda,loyalty:randInt(55,75),competence:randInt(45,70),lowClock:0,betrayed:false}));
+
+  $("start").classList.add("hidden");
+  $("regimeLabel").textContent="— "+r.name+" —";$("regimeLabel").style.color=r.color;
+  $("leaderLabel").textContent="◤ "+leader;
+  $("totalNations").textContent=S.nations.length;
+
+  log("OPERATION INITIALIZED. Doctrine: <b>"+r.name+"</b>","green");
+  log("Supreme authority vested in <b>"+leader+"</b>.","dim");
+  log("Directive: achieve <b>GLOBAL CHECKMATE</b> by conquest, control, or influence.","white");
+  headline("WORLD WATCHES AS "+leader+" SEIZES POWER UNDER "+r.name+" DOCTRINE");
+  headline("RIVAL STATES MOBILIZE INTELLIGENCE ASSETS");
+
+  renderNations();renderTab();updateActionDock();updateHUD();
+  gameRunning=true;eventTimer=0;eventInterval=randInt(30,48);
+  if(tickHandle)clearInterval(tickHandle);
+  tickHandle=setInterval(tick,1000);
+}
+
+/* ================= DERIVED ECONOMY ================= */
+function passiveIncome(){
+  let inc=5+S.economyLvl*3;
+  inc+=S.upgrades.factory*(4+S.upgrades.factory);
+  inc+=S.upgrades.techhub*4;
+  inc+=S.upgrades.blackmkt*3;
+  inc+=(S.oilBonus||0);
+  S.nations.forEach(n=>{if(n.status==='annexed')inc+=n.income;else if(n.status==='puppet')inc+=Math.round(n.income*.6);});
+  const fin=S.advisors.find(a=>a.role==='finance'&&!a.betrayed);
+  const finBonus=fin?fin.competence*.003:0;
+  inc*=(1+S.upgrades.tradenet*.12+S.upgrades.reserve*.08+finBonus);
+  inc-=S.policies.welfare*1.1+S.policies.military*.8+S.policies.surveillance*.7; // budget upkeep
+  return inc;
+}
+function pcIncome(){return .5+S.upgrades.techhub*.4;}
+function approvalDrift(){
+  let d=(50-S.approval)*.004;
+  d+=S.upgrades.media*.6;
+  d+=S.policies.welfare*.05;
+  d-=S.tension*.012;
+  d-=S.upgrades.blackmkt*.15;
+  d-=S.policies.surveillance*.02;
+  const press=S.advisors.find(a=>a.role==='press'&&!a.betrayed);
+  if(press)d+=press.competence*.004;
+  return d;
+}
+function manpowerRegen(){return 1.2+S.upgrades.draft*.8+S.economyLvl*.2+S.policies.military*.03;}
+function lossMitigation(){return clamp(1-S.upgrades.censor*.10-S.policies.censorship*.002,.2,1);}
+function diploCostMul(){return clamp(1-S.upgrades.diplomacy*.12,.3,1);}
+function rebelsCostMul(){return clamp(1-S.upgrades.agents*.06,.4,1);}
+function manpowerCostMul(){return clamp(1-S.upgrades.logistics*.08,.3,1);}
+function coupGrowthMul(){return clamp(1-S.upgrades.educ*.10-S.policies.surveillance*.004,.3,1);}
+function defenseMultiplier(){const dl=defconLevel();let m=({5:1,4:1.1,3:1.25,2:1.45,1:1.7})[dl];m-=S.nukes*.05;return Math.max(1,m);}
+function missionSucc(base){const sm=S.advisors.find(a=>a.role==='spymaster'&&!a.betrayed);return clamp(base+S.spyNetwork*.04+(sm?sm.competence*.002:0),.1,.95);}
+function traceRisk(){return clamp(.3-S.upgrades.counterint*.04,.05,.4);}
+
+/* ================= TICK ================= */
+function tick(){
+  if(!gameRunning)return;
+  S.time++;
+  S.treasury+=passiveIncome();
+  S.pc+=pcIncome();
+  S.manpower=Math.min(S.manpowerMax,S.manpower+manpowerRegen());
+  addApproval(approvalDrift());
+  S.tension=clamp(S.tension-.25,0,100);
+
+  // destabilized nations bleed
+  S.nations.forEach(n=>{if(n.destab>0&&n.status!=='annexed'){n.def=Math.max(10,n.def-(1+S.upgrades.agents*1.2));n.destab-=1;if(n.destab<=0&&n.status==='destab')n.status='hostile';}});
+
+  // advisor loyalty drift toward their alignment
+  S.advisors.forEach(a=>{
+    if(a.betrayed)return;
+    let drift=(50-a.loyalty)*.01; // toward neutral
+    // policy alignment nudges
+    if(a.align==='military')drift+=(S.policies.military-30)*.004;
+    if(a.align==='economy')drift+=(S.policies.welfare>50?-.05:.02)+(S.upgrades.tradenet>0?.03:0);
+    if(a.align==='espionage')drift+=(S.spyNetwork>4?.04:-.01);
+    if(a.align==='propaganda')drift+=(S.policies.censorship>40?.04:-.01);
+    a.loyalty=clamp(a.loyalty+drift,0,100);
+    if(a.loyalty<20){a.lowClock++;if(a.lowClock>=4)triggerBetrayal(a);}else a.lowClock=0;
+  });
+
+  // spy missions countdown
+  for(let i=S.missions.length-1;i>=0;i--){
+    const m=S.missions[i];m.left--;
+    if(m.left<=0){
+      const def=MISSIONS.find(x=>x.id===m.typeId);const tgt=S.nations[m.targetId];
+      if(tgt&&tgt.status!=='annexed'){
+        if(Math.random()<m.succ){def.ok(tgt);}
+        else{if(Math.random()<traceRisk())def.bad(tgt);else log(def.name+" on "+tgt.name+" failed quietly.","dim");}
+      }
+      S.missions.splice(i,1);renderNations();
+    }
+  }
+
+  // coup risk
+  if(S.approval<20)S.coupRisk+=((20-S.approval)*.22+.5)*coupGrowthMul();
+  else S.coupRisk=Math.max(0,S.coupRisk-1.5);
+  if(S.approval<=0||S.coupRisk>=100){triggerCoup();return;}
+
+  // bankruptcy
+  if(S.treasury<0){bankruptTicks++;if(bankruptTicks>=5){triggerCollapse();return;}}else bankruptTicks=0;
+
+  // events
+  eventTimer++;
+  if(!activeEvent&&eventTimer>=eventInterval){triggerEvent();eventTimer=0;eventInterval=randInt(30,50);}
+  if(!activeEvent){const ni=$("nextin");if(ni)ni.textContent="Next dispatch in ~"+Math.max(0,eventInterval-eventTimer)+"s";}
+
+  checkVictory();
+  if(activeTab==='espionage'||activeTab==='statecraft')renderTab();
+  updateHUD();
+}
+
+/* ================= HUD ================= */
+function updateHUD(){
+  $("sTreasury").textContent="$"+fmt(S.treasury);
+  $("sTreasuryD").textContent=(passiveIncome()>=0?"+":"")+fmt(passiveIncome())+"/s";
+  $("sTreasuryD").style.color=passiveIncome()<0?"var(--red)":"var(--dim)";
+  $("sManpower").textContent=fmt(S.manpower);
+  $("sManpowerD").textContent="/ "+fmt(S.manpowerMax)+" · +"+manpowerRegen().toFixed(1)+"/s";
+  $("sPC").textContent=fmt(S.pc);$("sPCD").textContent="+"+pcIncome().toFixed(1)+"/s";
+  $("sApproval").textContent=Math.round(S.approval)+"%";$("approvalbar").firstElementChild.style.width=S.approval+"%";
+  $("approvalStat").classList.toggle("danger",S.approval<20);
+  $("approvalbar").firstElementChild.style.background=S.approval<20?"var(--red)":"var(--amber)";
+  $("sTech").textContent=S.milTech;$("sSpy").textContent=Math.round(S.spyNetwork)+"/10";$("sNuke").textContent=S.nukes+"/5";
+  const dl=defconLevel();$("sDefcon").textContent=dl;
+  $("sDefconDesc").textContent=({5:"PEACETIME",4:"TENSIONS",3:"COLD WAR",2:"MOBILIZED",1:"TOTAL WAR"})[dl];
+  const dc=$("sDefcon");dc.style.color=dl>=4?"var(--green)":dl===3?"var(--amber)":"var(--red)";dc.style.textShadow=dl<=2?"0 0 12px var(--red)":"none";
+  updateObjectives();
+  refreshUpgradeStates();refreshActionStates();
+}
+function updateObjectives(){
+  const tot=S.nations.length;
+  const controlled=S.nations.filter(n=>n.status==='annexed'||n.status==='puppet').length;
+  const influence=S.nations.filter(n=>n.status==='annexed'||n.status==='puppet'||n.status==='allied').length;
+  const dom=Math.round(controlled/tot/0.75*100);
+  const inf=Math.round(influence/tot/0.60*100);
+  const inc=passiveIncome();const allies=S.nations.filter(n=>n.status==='allied'||n.status==='puppet'||n.status==='annexed').length;
+  const econ=Math.round(clamp((inc/220)*.6+(allies/tot/.7)*.4,0,1)*100);
+  $("objDom").style.width=clamp(dom,0,100)+"%";$("objDomP").textContent=clamp(dom,0,100)+"%";
+  $("objEcon").style.width=clamp(econ,0,100)+"%";$("objEconP").textContent=clamp(econ,0,100)+"%";
+  $("objInfl").style.width=clamp(inf,0,100)+"%";$("objInflP").textContent=clamp(inf,0,100)+"%";
+  $("annexCount").textContent=controlled;
+}
+
+/* ================= MAP ================= */
+function renderNations(){
+  const g=$("mapgrid");g.innerHTML="";
+  S.nations.forEach(n=>{
+    const el=document.createElement("div");
+    const gone=(n.status==='annexed');
+    el.className="nation"+(gone?" gone":"")+(selectedNation===n.id?" selected":"");
+    const effDef=Math.round(n.def*(gone||n.status==='puppet'?1:defenseMultiplier()));
+    let sc=n.status,sl=n.status.toUpperCase();
+    if(n.destab>0&&n.status!=='annexed'&&n.status!=='puppet'){sc="destab";sl="DESTABILIZED";}
+    const rel=n.rel||0;const relColor=rel>20?"var(--blue)":rel<-20?"var(--red)":"var(--dim)";
+    el.innerHTML=`<div class="nrow"><div class="nname">${n.name}${n.nuke?'<span class="nuke">☢</span>':''}</div><div class="nstat ${sc}">${sl}</div></div>
+      <div class="ndata"><span>DEF <b style="color:var(--red)">${effDef}</b></span><span>INC <b style="color:var(--green)">+${n.income}</b></span>${n.intel?'<span style="color:var(--purple)">◉ INTEL</span>':''}</div>
+      ${!gone?`<div class="defmeter"><i style="width:${clamp(effDef/3.2,4,100)}%"></i></div>`:`<div class="defmeter"><i style="width:100%;background:var(--green);opacity:.5"></i></div>`}
+      <div class="relbar"><i style="left:50%;width:${Math.abs(rel)/2}%;${rel>=0?'':'transform:translateX(-100%);'}background:${relColor}"></i></div>`;
+    el.onclick=()=>{selectedNation=n.id;renderNations();updateActionDock();if(activeTab==='espionage')renderTab();};
+    g.appendChild(el);
+  });
+}
+
+/* ================= ACTIONS ================= */
+function relationsCost(){return Math.round(500*diploCostMul());}
+function rebelsCost(){return Math.round(40*rebelsCostMul());}
+function puppetCost(){return 60;}
+function invadeManpowerCost(){const n=S.nations[selectedNation];return Math.round((80+n.def*.4)*manpowerCostMul());}
+
+function updateActionDock(){
+  const ti=$("targetInfo");
+  if(selectedNation===null){ti.textContent="NO TARGET SELECTED — click a region on the map";refreshActionStates();return;}
+  const n=S.nations[selectedNation];
+  ti.innerHTML=`TARGET: <b>${n.name}</b> — ${n.status.toUpperCase()} · relations ${n.rel||0}`;
+  refreshActionStates();
+}
+function refreshActionStates(){
+  const bR=$("btnRelations"),bF=$("btnRebels"),bP=$("btnPuppet"),bI=$("btnInvade");
+  if(selectedNation===null){[bR,bF,bP,bI].forEach(b=>{b.disabled=true;b.querySelector(".cost").textContent="—";});return;}
+  const n=S.nations[selectedNation];const gone=n.status==='annexed';
+  const rc=relationsCost(),fc=rebelsCost(),pc=puppetCost(),mc=invadeManpowerCost();
+  bR.querySelector(".cost").textContent="$"+fmt(rc);
+  bF.querySelector(".cost").textContent=fc+" PC";
+  bP.querySelector(".cost").textContent=pc+" PC";
+  bI.querySelector(".cost").textContent=mc+" MP";
+  bR.disabled=gone||S.treasury<rc;
+  bF.disabled=gone||n.status==='puppet'||S.pc<fc;
+  const puppetable=(n.destab>5||n.def<n.baseDef*.5)&&n.status!=='puppet'&&!gone;
+  bP.disabled=!puppetable||S.pc<pc;
+  bI.disabled=gone||n.status==='puppet'||S.manpower<mc;
+}
+$("btnRelations").onclick=()=>{if(selectedNation===null)return;const n=S.nations[selectedNation];const c=relationsCost();if(S.treasury<c||n.status==='annexed')return;
+  S.treasury-=c;n.def=Math.max(10,n.def-Math.round(n.baseDef*.12));n.rel=clamp((n.rel||0)+18,-100,100);
+  if(n.status==='hostile'&&Math.random()<.5){n.status='neutral';log(n.name+" downgrades HOSTILE → NEUTRAL.","blue");}
+  else if(n.status==='neutral'&&n.rel>40&&Math.random()<.5){n.status='allied';log(n.name+" now considers you an ALLY.","blue");headline(n.name.toUpperCase()+" SIGNS ALLIANCE PACT WITH "+S.leader);}
+  else log("Diplomatic overtures warm "+n.name+".","blue");
+  lowerTension(2);advLoyalty('general',-1);renderNations();updateHUD();};
+$("btnRebels").onclick=()=>{if(selectedNation===null)return;const n=S.nations[selectedNation];const c=rebelsCost();if(S.pc<c||n.status==='annexed')return;
+  S.pc-=c;n.destab+=6+S.upgrades.agents*3;n.def=Math.max(10,n.def-Math.round(n.baseDef*.10));n.rel=clamp((n.rel||0)-10,-100,100);
+  if(n.status==='allied')n.status='neutral';log("Covert funds flow to insurgents in "+n.name+". Their grip weakens.","amber");advLoyalty('spymaster',2);renderNations();updateHUD();};
+$("btnPuppet").onclick=()=>{if(selectedNation===null)return;const n=S.nations[selectedNation];const c=puppetCost();
+  if(S.pc<c||n.status==='annexed'||n.status==='puppet')return;
+  if(!(n.destab>5||n.def<n.baseDef*.5))return;
+  S.pc-=c;n.status='puppet';n.destab=0;raiseTension(5);
+  log("PUPPET REGIME installed in "+n.name+". They serve you now.","purple");
+  headline(n.name.toUpperCase()+" GOVERNMENT FALLS; INSTALLS LEADER LOYAL TO "+S.leader);
+  advLoyalty('spymaster',6);renderNations();updateActionDock();updateHUD();};
+$("btnInvade").onclick=()=>{if(selectedNation===null)return;const n=S.nations[selectedNation];const mc=invadeManpowerCost();
+  if(S.manpower<mc||n.status==='annexed'||n.status==='puppet')return;
+  S.manpower-=mc;const el=$("mapgrid").children[selectedNation];
+  let pPow=S.manpower*.45+S.milTech*55+S.upgrades.weapons*15+S.upgrades.airforce*18+randInt(0,60);
+  const enemyDef=n.def*defenseMultiplier()*3+randInt(0,50);
+  const chance=clamp(pPow/(pPow+enemyDef),.03,.97);
+  shake();log("⚔ OPERATION AGAINST <b>"+n.name+"</b> INITIATED...","red");
+  headline(S.leader.toUpperCase()+" LAUNCHES MILITARY OPERATION AGAINST "+n.name.toUpperCase());
+  setTimeout(()=>{
+    if(Math.random()<chance){
+      n.status='annexed';const bonus=2+S.upgrades.cult*4;addApproval(bonus);raiseTension(15);advLoyalty('general',8);
+      const a=$("app");a.classList.add("flashgreen");setTimeout(()=>a.classList.remove("flashgreen"),500);
+      log("> VICTORY. "+n.name+" ANNEXED. Passive income +"+n.income+"/s. (win chance "+Math.round(chance*100)+"%)","green");
+      headline(n.name.toUpperCase()+" ANNEXED; FLAG OF "+S.leader+" RAISED OVER CAPITAL");
+      floatText(el,"ANNEXED","var(--green)");selectedNation=null;
+    }else{
+      const mpLoss=Math.round((60+n.def*.3)*manpowerCostMul());S.manpower=Math.max(0,S.manpower-mpLoss);
+      const apLoss=Math.round((10+randInt(0,6))*lossMitigation());addApproval(-apLoss);raiseTension(10);advLoyalty('general',-6);
+      if(n.status!=='hostile')n.status='hostile';n.rel=clamp((n.rel||0)-25,-100,100);
+      const a=$("app");a.classList.add("flashred");setTimeout(()=>a.classList.remove("flashred"),350);
+      log("> DEFEAT. The assault on "+n.name+" is repelled. -"+mpLoss+" MP, -"+apLoss+"% approval. (win chance "+Math.round(chance*100)+"%)","red");
+      headline("DISASTER: "+S.leader.toUpperCase()+"'S INVASION OF "+n.name.toUpperCase()+" REPELLED WITH HEAVY LOSSES");
+      floatText(el,"REPELLED","var(--red)");
+    }
+    renderNations();updateActionDock();updateHUD();
+  },520);
+};
+
+/* ================= OPS TABS ================= */
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");activeTab=t.dataset.tab;renderTab();});
+function upgradeCost(u){return Math.round(u.base*Math.pow(u.mul,S.upgrades[u.id]));}
+function renderTab(){
+  const body=$("tabbody");
+  if(activeTab==='espionage'){renderEspionage(body);return;}
+  if(activeTab==='statecraft'){renderStatecraft(body);return;}
+  body.innerHTML='<div class="upgrid"></div>';const grid=body.firstElementChild;
+  UPGRADES[activeTab].forEach(u=>{
+    const lvl=S.upgrades[u.id],maxed=lvl>=u.max,cost=upgradeCost(u);
+    const can=(u.res==='treasury'?S.treasury:S.pc)>=cost;
+    const el=document.createElement("div");el.className="upgrade"+(maxed?" maxed":(!can?" cant":""));el.dataset.uid=u.id;
+    el.innerHTML=`<div class="urow"><div class="uname">${u.name}</div><div class="ulvl">LVL ${lvl}/${u.max}</div></div>
+      <div class="udesc">${u.desc(lvl)}</div><div class="ucost">${maxed?"◆ MAX LEVEL":"COST "+(u.res==='treasury'?"$"+fmt(cost):fmt(cost)+" PC")}</div>`;
+    if(!maxed)el.onclick=()=>buyUpgrade(u);grid.appendChild(el);
+  });
+}
+function refreshUpgradeStates(){
+  if(activeTab==='espionage'||activeTab==='statecraft')return;
+  document.querySelectorAll("#tabbody .upgrade").forEach(el=>{const uid=el.dataset.uid;if(!uid)return;const u=UPGRADES[activeTab].find(x=>x.id===uid);if(!u)return;const lvl=S.upgrades[u.id];if(lvl>=u.max)return;const cost=upgradeCost(u);el.classList.toggle("cant",(u.res==='treasury'?S.treasury:S.pc)<cost);});
+}
+function buyUpgrade(u){const cost=upgradeCost(u);const have=u.res==='treasury'?S.treasury:S.pc;if(have<cost)return;
+  if(u.res==='treasury')S.treasury-=cost;else S.pc-=cost;S.upgrades[u.id]++;
+  if(u.id==='draft')S.manpowerMax+=40+S.upgrades.draft*15;
+  if(u.id==='weapons')S.milTech+=1;
+  if(u.id==='spynet')S.spyNetwork=Math.min(10,S.spyNetwork+1);
+  advLoyalty(({economy:'finance',military:'general',espionage:'spymaster',propaganda:'press'})[activeTab],3);
+  log("UPGRADE: <b>"+u.name+"</b> → LVL "+S.upgrades[u.id]+".","green");
+  renderTab();updateHUD();renderNations();}
+
+/* ESPIONAGE */
+function renderEspionage(body){
+  const tgtName=selectedNation!==null?S.nations[selectedNation].name:null;
+  let html='<div class="section-title">Covert Operations '+(tgtName?'— TARGET: <span style="color:var(--purple)">'+tgtName+'</span>':'— select a target on the map')+'</div><div class="missiongrid"></div>';
+  body.innerHTML=html;const grid=body.querySelector(".missiongrid");
+  MISSIONS.forEach(m=>{
+    const succ=Math.round(missionSucc(m.base)*100);
+    const can=tgtName&&S.pc>=m.pc&&S.treasury>=m.tre&&S.nations[selectedNation].status!=='annexed';
+    const el=document.createElement("div");el.className="mission"+(!can?" cant":"");
+    el.innerHTML=`<div class="mname">${m.name}</div><div class="mdesc">${m.desc}</div>
+      <div class="mmeta"><span>${m.pc} PC${m.tre?' · $'+m.tre:''}</span><span style="color:var(--purple)">${succ}% · ${m.dur}s</span></div>`;
+    if(can)el.onclick=()=>launchMission(m);grid.appendChild(el);
+  });
+  // active ops
+  const ao=document.createElement("div");ao.className="activeops";
+  ao.innerHTML='<div class="section-title">Active Operations</div>';
+  if(S.missions.length===0)ao.innerHTML+='<div style="font-size:9.5px;color:var(--dim)">No operations in progress.</div>';
+  S.missions.forEach(m=>{const def=MISSIONS.find(x=>x.id===m.typeId);const tgt=S.nations[m.targetId];const prog=(1-m.left/m.dur)*100;
+    const row=document.createElement("div");row.className="opitem";
+    row.innerHTML=`<span style="color:var(--purple)">${def.name}</span><span style="color:var(--dim)">→ ${tgt.name}</span><div class="opbar"><i style="width:${prog}%"></i></div><span>${m.left}s</span>`;
+    ao.appendChild(row);});
+  body.appendChild(ao);
+}
+function launchMission(m){
+  if(selectedNation===null)return;if(S.pc<m.pc||S.treasury<m.tre)return;
+  S.pc-=m.pc;S.treasury-=m.tre;
+  S.missions.push({typeId:m.id,targetId:selectedNation,left:m.dur,dur:m.dur,succ:missionSucc(m.base)});
+  log("OPERATION LAUNCHED: "+m.name+" → "+S.nations[selectedNation].name+" ("+Math.round(missionSucc(m.base)*100)+"% success).","purple");
+  advLoyalty('spymaster',2);renderTab();updateHUD();
+}
+
+/* STATECRAFT (cabinet + policies + nukes + objectives) */
+function renderStatecraft(body){
+  body.innerHTML='<div class="sc-grid"><div class="cabinet"></div><div class="scright"></div></div>';
+  const cab=body.querySelector(".cabinet");
+  cab.innerHTML='<div class="section-title">Shadow Cabinet</div>';
+  S.advisors.forEach(a=>{
+    const lc=a.loyalty<20?"var(--red)":a.loyalty<45?"var(--amber)":"var(--green)";
+    const el=document.createElement("div");el.className="advisor"+(a.loyalty<20?" disloyal":"");
+    el.innerHTML=`<div class="arow"><div><div class="aname">${a.name}</div><div class="arole">${a.title}${a.betrayed?' · ⚠ BETRAYED':''}</div></div></div>
+      <div style="font-size:8px;color:var(--dim);font-style:italic;margin-top:4px">"${a.agenda}"</div>
+      <div class="ameters">
+        <div class="meter"><div class="ml"><span>LOYALTY</span><span style="color:${lc}">${Math.round(a.loyalty)}</span></div><div class="mb"><i style="width:${a.loyalty}%;background:${lc}"></i></div></div>
+        <div class="meter"><div class="ml"><span>COMPETENCE</span><span style="color:var(--blue)">${Math.round(a.competence)}</span></div><div class="mb"><i style="width:${a.competence}%;background:var(--blue)"></i></div></div>
+      </div>
+      <button class="train" ${a.betrayed||S.pc<25||a.competence>=99?'disabled':''}>TRAIN (25 PC, +6 COMP)</button>`;
+    const btn=el.querySelector(".train");if(btn&&!btn.disabled)btn.onclick=()=>{if(S.pc<25)return;S.pc-=25;a.competence=clamp(a.competence+6,0,100);a.loyalty=clamp(a.loyalty+3,0,100);log("Trained "+a.name+". Competence up.","blue");renderTab();updateHUD();};
+    cab.appendChild(el);
+  });
+  const right=body.querySelector(".scright");
+  right.innerHTML='<div class="section-title">National Policy (per-second upkeep)</div>';
+  const sliders=[
+    {k:"welfare",name:"WELFARE SPENDING",d:"Higher = approval rises, treasury drains."},
+    {k:"military",name:"MILITARY BUDGET",d:"Higher = faster manpower regen, costs treasury."},
+    {k:"surveillance",name:"SURVEILLANCE STATE",d:"Higher = lower coup risk, slowly erodes approval."},
+    {k:"censorship",name:"CENSORSHIP LEVEL",d:"Higher = fewer losses from crises, less global goodwill."}
+  ];
+  sliders.forEach(s=>{
+    const wrap=document.createElement("div");wrap.className="policy";
+    wrap.innerHTML=`<div class="pl"><span>${s.name}</span><b>${S.policies[s.k]}%</b></div>
+      <input type="range" min="0" max="100" value="${S.policies[s.k]}"><div class="pd">${s.d}</div>`;
+    const inp=wrap.querySelector("input");
+    inp.oninput=e=>{S.policies[s.k]=parseInt(e.target.value);wrap.querySelector("b").textContent=S.policies[s.k]+"%";updateHUD();};
+    right.appendChild(wrap);
+  });
+  // nuclear
+  const nuke=document.createElement("div");nuke.className="nukebox";
+  const nukeCost=4000*(S.nukes+1);const canNuke=S.milTech>=3+S.nukes&&S.treasury>=nukeCost&&S.nukes<5;
+  nuke.innerHTML=`<div class="nh">☢ NUCLEAR PROGRAM — DETERRENCE ${S.nukes}/5</div>
+    <div style="font-size:9px;color:var(--dim);margin-top:4px">Each warhead lowers coup risk, deters enemy alliances, and reduces stacked defense. Requires Mil Tech ${3+S.nukes}+.</div>
+    <button class="nukebtn" ${canNuke?'':'disabled'}>BUILD WARHEAD — $${fmt(nukeCost)}</button>`;
+  const nb=nuke.querySelector(".nukebtn");
+  if(canNuke)nb.onclick=()=>{S.treasury-=nukeCost;S.nukes++;raiseTension(12);log("☢ NUCLEAR WARHEAD ASSEMBLED. Deterrence now "+S.nukes+"/5.","red");headline(S.leader.toUpperCase()+" GOES NUCLEAR; WORLD POWERS ON ALERT");shake();renderTab();updateHUD();};
+  right.appendChild(nuke);
+}
+
+/* ================= CRISIS ================= */
+function eligibleEvents(){return EVENTS.filter(e=>!e.req||e.req());}
+function triggerEvent(){
+  const pool=eligibleEvents();const ev=pool[randInt(0,pool.length-1)];activeEvent=ev;
+  if(ev.glitch)glitch();
+  const briefer=S.advisors.find(a=>a.role===ev.brief);
+  const body=$("crisisbody");body.innerHTML="";
+  const card=document.createElement("div");card.className="eventcard";
+  let ch="";ev.choices.forEach((c,i)=>{ch+=`<button class="choice" data-i="${i}"><div class="ctxt">${c.text}</div><div class="ceff">${c.eff}</div></button>`;});
+  const advice=briefer?`<div class="advice"><b>${briefer.name} (${briefer.title}):</b> ${adviceLine(briefer,ev)}</div>`:"";
+  card.innerHTML=`<div class="etag"><span>⚠ ${ev.tag}</span><span>PRIORITY DISPATCH</span></div>
+    <div class="etitle">${ev.title}</div><div class="ebody">${ev.body}</div>${advice}<div class="echoices">${ch}</div>`;
+  body.appendChild(card);
+  log("⚠ CRISIS: <b>"+ev.title+"</b> requires a decision.","amber");
+  card.querySelectorAll(".choice").forEach(b=>b.onclick=()=>resolveEvent(parseInt(b.dataset.i)));
+}
+function adviceLine(a,ev){
+  const lines={general:["We should answer strength with strength.","Hesitation is how leaders are buried.","Give the order and let me handle the rest."],
+    finance:["Mind the ledger before the pride, sir.","Every choice here has a price tag.","Stability now pays dividends later."],
+    spymaster:["Trust the third option. It's quieter.","I have assets that could... assist.","The obvious move is the one they expect."],
+    press:["Whatever you choose, let me frame it.","The optics matter more than the truth.","Give the people a story they can love."]};
+  const l=lines[a.role];return l[randInt(0,l.length-1)];
+}
+function resolveEvent(i){const ev=activeEvent;if(!ev)return;ev.choices[i].do();activeEvent=null;
+  $("crisisbody").innerHTML=`<div id="noevent"><span class="big">// STANDBY //</span>No active crisis. The situation is stable... for now.<br><span id="nextin">Next dispatch incoming...</span></div>`;
+  renderNations();renderTab();updateHUD();if(S.approval<=0||S.coupRisk>=100)triggerCoup();}
+
+/* ================= BETRAYAL ================= */
+function triggerBetrayal(a){
+  a.betrayed=true;a.loyalty=0;glitch();shake();
+  if(a.role==='general'){S.coupRisk+=30;S.manpower=Math.round(S.manpower*.7);log("⚠ BETRAYAL: "+a.name+" launches a COUP ATTEMPT! Troops defect, coup risk surges.","red");headline("BREAKING: WAR MINISTER "+a.name.toUpperCase()+" ATTEMPTS COUP AGAINST "+S.leader);}
+  else if(a.role==='finance'){S.treasury=Math.round(S.treasury*.6);log("⚠ BETRAYAL: "+a.name+" loots the treasury and flees abroad.","red");headline("SCANDAL: FINANCE MINISTER "+a.name.toUpperCase()+" EMBEZZLES STATE FORTUNE");}
+  else if(a.role==='spymaster'){S.spyNetwork=Math.max(0,S.spyNetwork-4);S.missions=[];raiseTension(12);log("⚠ BETRAYAL: "+a.name+" defects with your secrets. Spy network gutted, ops blown.","red");headline("INTELLIGENCE CHIEF "+a.name.toUpperCase()+" DEFECTS TO RIVAL POWER");}
+  else{addApproval(-15);log("⚠ BETRAYAL: "+a.name+" leaks regime secrets to the foreign press. Approval craters.","red");headline("PRESS SECRETARY "+a.name.toUpperCase()+" EXPOSES REGIME SECRETS");}
+  updateHUD();if(activeTab==='statecraft')renderTab();
+}
+
+/* ================= VICTORY / DEFEAT ================= */
+function checkVictory(){
+  const tot=S.nations.length;
+  const controlled=S.nations.filter(n=>n.status==='annexed'||n.status==='puppet').length;
+  const influence=S.nations.filter(n=>n.status==='annexed'||n.status==='puppet'||n.status==='allied').length;
+  const inc=passiveIncome();const allies=S.nations.filter(n=>['allied','puppet','annexed'].includes(n.status)).length;
+  if(controlled/tot>=.75)return triggerVictory("TOTAL DOMINATION","Three-quarters of the world flies your flag or bends to your puppets. The remaining holdouts are a formality.");
+  if(influence/tot>=.60)return triggerVictory("GLOBAL INFLUENCE","Sixty percent of nations now orbit your power — as allies, puppets, or provinces. You rule not by force alone, but by gravity.");
+  if(inc>=220&&allies/tot>=.7)return triggerVictory("ECONOMIC HEGEMONY","Your economy dwarfs every rival and your trade web spans the globe. You own the future, one ledger at a time.");
+  if(S.peaceOffer&&S.tension<10&&influence/tot>=.4)return triggerVictory("THE GRAND ARCHITECT","You ended the great conflicts and built a world order with yourself at its head. They will call this the Long Peace — your peace.");
+}
+function endGame(){gameRunning=false;if(tickHandle)clearInterval(tickHandle);}
+function showOver(skull,skullColor,title,titleColor,reason,bg){
+  $("goSkull").textContent=skull;$("goSkull").style.color=skullColor;
+  $("goTitle").textContent=title;$("goTitle").style.color=titleColor;$("goTitle").style.textShadow="0 0 24px "+titleColor;
+  $("gameover").style.background=bg;$("goReason").innerHTML=reason;
+  const controlled=S.nations.filter(n=>n.status==='annexed'||n.status==='puppet').length;
+  $("goStats").innerHTML=`Time in power: <b>${S.time}s</b> · Nations controlled: <b>${controlled}/${S.nations.length}</b><br>Final treasury: <b>$${fmt(S.treasury)}</b> · Final approval: <b>${Math.round(S.approval)}%</b> · Mil Tech: <b>${S.milTech}</b> · Nukes: <b>${S.nukes}</b>`;
+  const btn=$("gameover").querySelector(".btn");
+  $("gameover").classList.remove("hidden");
+}
+function triggerCoup(){if(!gameRunning)return;endGame();shake();
+  showOver("☠","var(--red)","YOU HAVE BEEN OVERTHROWN","var(--red)",
+   "Public approval collapsed and the generals turned. At dawn, tanks rolled into the capital. Your portrait was torn from every wall. The war room is silent now.","rgba(20,0,0,.97)");
+  $("gameover").querySelector(".btn").className="btn red";$("gameover").querySelector(".btn").textContent="⟳ SEIZE POWER AGAIN";
+  log("☠ COUP D'ETAT. The regime has fallen.","red");}
+function triggerCollapse(){if(!gameRunning)return;endGame();shake();
+  showOver("₿","var(--amber)","ECONOMIC COLLAPSE","var(--amber)",
+   "The treasury ran dry for five long days. Wages went unpaid, the army went unfed, and the state simply... stopped. You are remembered as the ruler who bankrupted a nation.","rgba(20,12,0,.97)");
+  $("gameover").querySelector(".btn").className="btn";$("gameover").querySelector(".btn").textContent="⟳ TRY AGAIN";
+  log("₿ ECONOMIC COLLAPSE. The state is insolvent.","amber");}
+function triggerMAD(){if(!gameRunning)return;endGame();glitch();shake();
+  showOver("☢","var(--red)","MUTUAL ASSURED DESTRUCTION","var(--red)",
+   "The missiles flew in both directions. Within minutes, the cities you fought so hard to rule were ash. There are no victors in the dark. There is no one left to rule.","rgba(15,0,0,.98)");
+  $("gameover").querySelector(".btn").className="btn red";$("gameover").querySelector(".btn").textContent="⟳ REWIND HISTORY";
+  log("☢ NUCLEAR EXCHANGE. The world is gone.","red");}
+function triggerVictory(kind,reason){if(!gameRunning)return;endGame();
+  showOver("♛","var(--green)",kind,"var(--green)",reason,"rgba(0,20,4,.97)");
+  $("gameover").querySelector(".btn").className="btn";$("gameover").querySelector(".btn").textContent="⟳ A NEW WORLD ORDER";
+  log("♛ VICTORY — "+kind+". Global checkmate achieved.","green");headline("HISTORY MADE: "+S.leader.toUpperCase()+" ACHIEVES "+kind);}
+
+/* ================= BOOT ================= */
+buildStartScreen();
+</script>
+</body>
+</html>
